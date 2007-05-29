@@ -10,7 +10,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.3.1
-Release: 	%mkrel 3
+Release: 	%mkrel 4
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -277,6 +277,9 @@ EOF
 # maybe later:
 #    --with-default-snmp-version="3" \
 # ?
+
+# XXX autojunk
+sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," include/net-snmp/net-snmp-config.h
 
 make
 

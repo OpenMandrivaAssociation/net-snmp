@@ -10,7 +10,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.3.1
-Release: 	%mkrel 4
+Release: 	%mkrel 5
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -305,6 +305,8 @@ install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -d %{buildroot}%{_sysconfdir}/snmp
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
+install -d %{buildroot}/var/lib/net-snmp
+install -d %{buildroot}/var/agentx/master
 
 install -m 0755 %{SOURCE2} %{buildroot}%{_initrddir}/snmpd
 install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/snmp/snmpd.conf
@@ -486,6 +488,8 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %{_includedir}/net-snmp
 %{_includedir}/net-snmp/net-snmp-config.h
 %{_mandir}/man3/*
+%dir /var/lib/net-snmp
+%dir /var/agentx/master
 
 %files -n %{libname}-static-devel
 %defattr(0644,root,root,755)
@@ -501,5 +505,3 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %{perl_vendorarch}/Bundle/Makefile.subs.pl
 %{_mandir}/man3/NetSNMP*
 %{_mandir}/man3/SNMP.3*
-
-

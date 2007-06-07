@@ -10,7 +10,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.3.1
-Release: 	%mkrel 5
+Release: 	%mkrel 6
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -242,6 +242,12 @@ autoconf
 
 %build
 %serverbuild
+
+%if %mdkversion >= 200710
+export CFLAGS="%{optflags} -fstack-protector"
+export CXXFLAGS="%{optflags} -fstack-protector"
+export FFLAGS="%{optflags} -fstack-protector"
+%endif
 
 %ifarch ia64 x86_64 s390x ppc64
 export LDFLAGS="-L%{_libdir}"

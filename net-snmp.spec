@@ -244,9 +244,9 @@ autoconf
 %serverbuild
 
 %if %mdkversion >= 200710
-export CFLAGS="%{optflags} -fstack-protector"
-export CXXFLAGS="%{optflags} -fstack-protector"
-export FFLAGS="%{optflags} -fstack-protector"
+export CFLAGS="$CFLAGS -fstack-protector"
+export CXXFLAGS="$CXXFLAGS -fstack-protector"
+export FFLAGS="$FFLAGS -fstack-protector"
 %endif
 
 %ifarch ia64 x86_64 s390x ppc64

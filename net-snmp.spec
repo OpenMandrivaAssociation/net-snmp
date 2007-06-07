@@ -241,12 +241,10 @@ bzip2 ChangeLog
 autoconf
 
 %build
-%serverbuild
-
 %if %mdkversion >= 200710
-export CFLAGS="$CFLAGS -fstack-protector -fPIC"
-export CXXFLAGS="$CXXFLAGS -fstack-protector -fPIC"
-export FFLAGS="$FFLAGS -fstack-protector -fPIC"
+export CFLAGS="%{optflags} -fstack-protector -fPIC"
+export CXXFLAGS="%{optflags} -fstack-protector -fPIC"
+export FFLAGS="%{optflags} -fstack-protector -fPIC"
 %endif
 
 %ifarch ia64 x86_64 s390x ppc64

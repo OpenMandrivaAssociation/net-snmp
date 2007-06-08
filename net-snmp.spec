@@ -238,13 +238,16 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 bzip2 ChangeLog
 
 # regenerate configure script
+libtoolize --copy --force
 autoconf
 
 %build
+%serverbuild
+
 %if %mdkversion >= 200710
-export CFLAGS="%{optflags} -fstack-protector -fPIC"
-export CXXFLAGS="%{optflags} -fstack-protector -fPIC"
-export FFLAGS="%{optflags} -fstack-protector -fPIC"
+export CFLAGS="$CFLAGS -fstack-protector -fPIC"
+export CXXFLAGS="$CXXFLAGS -fstack-protector -fPIC"
+export FFLAGS="$FFLAGS -fstack-protector -fPIC"
 %endif
 
 %ifarch ia64 x86_64 s390x ppc64
@@ -260,7 +263,7 @@ export LDFLAGS="-L%{_libdir}"
     --enable-static \
     --enable-shared \
     --with-perl-modules="INSTALLDIRS=vendor" \
-    --with-cflags="%{optflags} -D_REENTRANT " \
+    --with-cflags="$CFLAGS -D_REENTRANT" \
     --with-sys-location="Unknown" \
     --with-logfile="/var/log/snmpd.log" \
     --with-persistent-directory="/var/lib/net-snmp" \

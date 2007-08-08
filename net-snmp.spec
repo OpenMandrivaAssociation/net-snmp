@@ -59,7 +59,7 @@ Requires:	tcp_wrappers
 BuildRequires:	autoconf2.5 >= 2.59
 BuildRequires:	chrpath
 %ifarch %{ix86} x86_64
-BuildPrereq:	lm_sensors-devel
+BuildRequires:	lm_sensors-devel
 %endif
 %if %mdkversion >= 1020
 BuildRequires:	multiarch-utils >= 1.0.3

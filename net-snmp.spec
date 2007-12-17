@@ -73,7 +73,6 @@ BuildRequires:	perl-devel
 BuildRequires:	rpm-devel
 %endif
 BuildRequires:	tcp_wrappers-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 SNMP (Simple Network Management Protocol) is a protocol used for network

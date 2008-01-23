@@ -12,7 +12,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.1
-Release: 	%mkrel 4
+Release: 	%mkrel 5
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -150,6 +150,14 @@ network management project.
 
 Install this package if you need utilities for managing your network using the
 SNMP protocol.
+
+%package	tkmib
+Summary:	MIB browser in TK
+Group:		Networking/Other
+Requires:	net-snmp-mibs
+
+%description	tkmib
+MIB browser in TK
 
 %package	mibs
 Summary:	MIBs for the NET-SNMP project
@@ -317,7 +325,6 @@ install -m 0644 %{SOURCE9} %{buildroot}%{_sysconfdir}/snmp/snmp.local.conf
 
 rm -f %{buildroot}%{_bindir}/snmpinform
 rm -f %{buildroot}%{_bindir}/snmpcheck
-rm -f %{buildroot}%{_bindir}/tkmib
 ln -s snmptrap %{buildroot}%{_bindir}/snmpinform
 
 # install some extra stuff...
@@ -464,7 +471,6 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %attr(0644,root,root) %{_mandir}/man1/snmpusm.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpvacm.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpwalk.1*
-%attr(0644,root,root) %{_mandir}/man1/tkmib.1*
 %attr(0644,root,root) %{_mandir}/man1/traptoemail.1*
 %attr(0644,root,root) %{_mandir}/man5/mib2c.conf.5*
 
@@ -510,3 +516,8 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %{perl_vendorarch}/Bundle/Makefile.subs.pl
 %{_mandir}/man3/NetSNMP*
 %{_mandir}/man3/SNMP.3*
+
+%files tkmib
+%defattr(-,root,root)
+%{_bindir}/tkmib
+%{_mandir}/man1/tkmib.1*

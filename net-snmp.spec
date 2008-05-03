@@ -32,6 +32,7 @@ Source13:	net-snmpd.sysconfig
 Source14:	net-snmptrapd.sysconfig
 Patch0:		net-snmp-5.1-nodb.patch
 Patch1:		net-snmp-lvalue.patch
+Patch2:		net-snmp-5.4.1-build_fix.diff
 # OE: stolen from fedora
 Patch16:	net-snmp-5.4.1-sensors3.patch
 Patch17:	net-snmp-5.4.1-xen-crash.patch
@@ -206,6 +207,7 @@ written in perl.
 %setup -q
 %patch0 -p0 -b .nodb
 %patch1 -p1 -b .lvalue
+%patch2 -p0 -b .build_fix
 
 # OE: added from fedora
 %patch16 -p0 -b .sensors

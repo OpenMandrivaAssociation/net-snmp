@@ -1,3 +1,7 @@
+%if %mdkversion >= 200900
+%define _disable_ld_no_undefined 1
+%endif
+
 %define major 15
 %define libname %mklibname net-snmp %{major}
 %define develname %mklibname -d net-snmp
@@ -11,8 +15,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.4.1
-Release: 	%mkrel 6
+Version: 	5.4.1.1
+Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -255,6 +259,8 @@ export FFLAGS="$FFLAGS -fPIC"
 export LDFLAGS="-L%{_libdir}"
 %endif
 
+export NETSNMP_DONT_CHECK_VERSION=1
+
 %configure2_5x \
 %if %{build_rpm}
     --with-rpm \
@@ -300,7 +306,7 @@ perl -pi -e "s|\./RUNTESTS|\./RUNTESTS -V|g" testing/Makefile
 #make test
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %makeinstall \
     includedir=%{buildroot}%{_includedir}/net-snmp \
@@ -391,7 +397,7 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %endif
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -452,7 +458,6 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %{_datadir}/snmp/snmpconf-data
 %{_datadir}/snmp/mib2c-data
 %{_datadir}/snmp/snmp_perl_trapd.pl
-%{_datadir}/snmp/snmp_perl.pl
 %{_datadir}/snmp/*.conf
 %attr(0644,root,root) %{_mandir}/man1/encode_keychange.1*
 %attr(0644,root,root) %{_mandir}/man1/fixproc.1*

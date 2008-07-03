@@ -54,6 +54,8 @@ Patch50:	net-snmp-64bit-fixes.diff
 # on the safe side and don't touch to the rest
 Patch52:	net-snmp-no_bundled_libtool.diff
 Patch53:	net-snmp-no_perlinstall.diff
+# (misc) https://qa.mandriva.com/show_bug.cgi?id=41592
+Patch54:    net-snmp-fixCVE-2008-2292.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -230,6 +232,9 @@ written in perl.
 %patch50 -p1 -b .64bit-fixes
 %patch52 -p0 -b .libtool
 %patch53 -p0 -b .no_perlinstall
+
+%patch54 -p2
+
 cat %{_datadir}/aclocal/libtool.m4 >> aclocal.m4
 
 # run tests in dir that is cleaned

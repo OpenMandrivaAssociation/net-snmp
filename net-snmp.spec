@@ -1,6 +1,4 @@
-%if %mdkversion >= 200900
 %define _disable_ld_no_undefined 1
-%endif
 
 %define major 15
 %define libname %mklibname net-snmp %{major}
@@ -15,8 +13,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.4.1.1
-Release: 	%mkrel 3
+Version: 	5.4.1.2
+Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/

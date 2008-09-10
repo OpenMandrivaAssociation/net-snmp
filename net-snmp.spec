@@ -13,7 +13,7 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.4.1.2
+Version: 	5.4.2
 Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
@@ -41,7 +41,6 @@ Patch17:	net-snmp-5.4.1-xen-crash.patch
 Patch21:	net-snmp-5.0.8-ipv6-sock-close.patch
 Patch22:	net-snmp-5.0.8-readonly.patch
 Patch24:	net-snmp-pie.diff
-Patch25:	net-snmp-5.4-64bit.patch
 Patch26:	net-snmp-5.1.2-dir-fix.patch
 Patch27:	net-snmp-5.2.1-file_offset.patch
 Patch28:	ucd-snmp-4.2.4.pre3-mnttab.patch
@@ -221,7 +220,6 @@ written in perl.
 %ifnarch ia64
 %patch24 -p1 -b .pie
 %endif
-%patch25 -p1 -b .64bit
 %patch26 -p1 -b .dir-fix
 %patch27 -p1 -b .file_offset
 %patch28 -p1 -b .mnttab
@@ -231,7 +229,7 @@ written in perl.
 %patch52 -p0 -b .libtool
 %patch53 -p0 -b .no_perlinstall
 
-%patch54 -p2
+#%patch54 -p2
 
 cat %{_datadir}/aclocal/libtool.m4 >> aclocal.m4
 
@@ -286,14 +284,15 @@ export NETSNMP_DONT_CHECK_VERSION=1
     --sysconfdir=%{_sysconfdir} \
     --enable-ipv6 \
     --enable-ucd-snmp-compatibility \
+    --with-default-snmp-version="3" \
+    --enable-embedded-perl \
+    --enable-as-needed \
     --with-sys-contact="root@localhost" <<EOF
 
 
 EOF
 
-# maybe later:
-#    --with-default-snmp-version="3" \
-# ?
+# sctp-mib does not build yet
 
 # XXX autojunk
 sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," include/net-snmp/net-snmp-config.h
@@ -301,7 +300,7 @@ sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," include/net-snmp
 make
 
 # more verbose tests
-perl -pi -e "s|\./RUNTESTS|\./RUNTESTS -V|g" testing/Makefile
+#perl -pi -e "s|\./RUNTESTS|\./RUNTESTS -V|g" testing/Makefile
 # XXX - andreas - 15/aug/2006
 # XXX - disabled because doesn't work on cluster
 # and available bandwidth is TOO LOW for interactive debugging from
@@ -458,8 +457,9 @@ rm -rf %{buildroot}
 %{_bindir}/snmpvacm
 %{_bindir}/snmpwalk
 %{_bindir}/traptoemail
-%{_datadir}/snmp/snmpconf-data
 %{_datadir}/snmp/mib2c-data
+%{_datadir}/snmp/snmpconf-data
+%{_datadir}/snmp/snmp_perl.pl
 %{_datadir}/snmp/snmp_perl_trapd.pl
 %{_datadir}/snmp/*.conf
 %attr(0644,root,root) %{_mandir}/man1/encode_keychange.1*

@@ -1,3 +1,5 @@
+%define _requires_exceptions devel(libperl
+
 %define _disable_ld_no_undefined 1
 
 %define major 15
@@ -14,7 +16,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2
-Release: 	%mkrel 1
+Release: 	%mkrel 2
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -115,6 +117,7 @@ Requires:	tcp_wrappers-devel
 Requires:	lm_sensors-devel
 %endif
 Obsoletes:	ucd-snmp-devel
+Requires:	perl-devel
 
 %description -n	%{develname}
 The %{develname} package contains the development libraries and header

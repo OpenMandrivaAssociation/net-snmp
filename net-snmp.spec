@@ -16,7 +16,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2.1
-Release: 	%mkrel 1
+Release: 	%mkrel 2
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -216,16 +216,16 @@ written in perl.
 %patch2 -p0 -b .build_fix
 
 # OE: added from fedora
-%patch16 -p0 -b .sensors
+%patch16 -p1 -b .sensors
 %patch17 -p0 -b .xen-crash
 %patch21 -p1 -b .ipv6-sock-close
-%patch22 -p1 -b .readonly
+%patch22 -p0 -b .readonly
 %ifnarch ia64
 %patch24 -p1 -b .pie
 %endif
-%patch26 -p1 -b .dir-fix
+%patch26 -p0 -b .dir-fix
 %patch27 -p1 -b .file_offset
-%patch28 -p1 -b .mnttab
+%patch28 -p0 -b .mnttab
 
 # Extra MDK patches
 %patch50 -p1 -b .64bit-fixes

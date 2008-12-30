@@ -16,7 +16,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2.1
-Release: 	%mkrel 2
+Release: 	%mkrel 3
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -55,6 +55,7 @@ Patch52:	net-snmp-no_bundled_libtool.diff
 Patch53:	net-snmp-no_perlinstall.diff
 # (misc) https://qa.mandriva.com/show_bug.cgi?id=41592
 Patch54:    net-snmp-fixCVE-2008-2292.diff
+Patch55:	net-snmp-5.4.2.1-format_not_a_string_literal_and_no_format_arguments.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -162,6 +163,7 @@ SNMP protocol.
 Summary:	MIB browser in TK
 Group:		Networking/Other
 Requires:	net-snmp-mibs
+Requires:	perl(SNMP)
 
 %description	tkmib
 MIB browser in TK
@@ -216,7 +218,7 @@ written in perl.
 %patch2 -p0 -b .build_fix
 
 # OE: added from fedora
-%patch16 -p1 -b .sensors
+#patch16 -p1 -b .sensors <- requires lmsensors-3.x, but we still have v2.x for some mysterious reason...
 %patch17 -p0 -b .xen-crash
 %patch21 -p1 -b .ipv6-sock-close
 %patch22 -p0 -b .readonly
@@ -233,6 +235,7 @@ written in perl.
 %patch53 -p0 -b .no_perlinstall
 
 #%patch54 -p2
+%patch55 -p1 -b .format_not_a_string_literal_and_no_format_arguments
 
 cat %{_datadir}/aclocal/libtool.m4 >> aclocal.m4
 

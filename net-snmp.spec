@@ -1,6 +1,12 @@
 %define _requires_exceptions devel(libperl
 
+%if %mdkversion >= 200810
 %define _disable_ld_no_undefined 1
+%endif
+
+%if %mdkversion >= 200910
+%define Werror_cflags %{nil}
+%endif
 
 %define major 15
 %define libname %mklibname net-snmp %{major}
@@ -16,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2.1
-Release: 	%mkrel 3
+Release: 	%mkrel 4
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/

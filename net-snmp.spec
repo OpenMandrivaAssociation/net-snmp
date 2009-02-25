@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2.1
-Release: 	%mkrel 4
+Release: 	%mkrel 5
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -62,6 +62,7 @@ Patch53:	net-snmp-no_perlinstall.diff
 # (misc) https://qa.mandriva.com/show_bug.cgi?id=41592
 Patch54:    net-snmp-fixCVE-2008-2292.diff
 Patch55:	net-snmp-5.4.2.1-format_not_a_string_literal_and_no_format_arguments.diff
+Patch56:	net-snmp-5.4.2-CVE-2008-6123.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -242,8 +243,7 @@ written in perl.
 
 #%patch54 -p2
 %patch55 -p1 -b .format_not_a_string_literal_and_no_format_arguments
-
-cat %{_datadir}/aclocal/libtool.m4 >> aclocal.m4
+%patch56 -p0 -b .CVE-2008-6123
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir
@@ -257,6 +257,7 @@ bzip2 ChangeLog
 
 # regenerate configure script
 libtoolize --copy --force
+aclocal
 autoconf
 
 %build

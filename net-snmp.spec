@@ -63,6 +63,7 @@ Patch53:	net-snmp-no_perlinstall.diff
 Patch54:    net-snmp-fixCVE-2008-2292.diff
 Patch55:	net-snmp-5.4.2.1-format_not_a_string_literal_and_no_format_arguments.diff
 Patch56:	net-snmp-5.4.2-CVE-2008-6123.diff
+Patch57:	net-snmp-5.4.2.1-perl-agent-snmp_erro-format-fix.patch
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -244,6 +245,7 @@ written in perl.
 #%patch54 -p2
 %patch55 -p1 -b .format_not_a_string_literal_and_no_format_arguments
 %patch56 -p0 -b .CVE-2008-6123
+%patch57 -p1 -b .snmp_error-format-fix
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir

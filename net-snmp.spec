@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.4.2.1
-Release: 	%mkrel 6
+Release: 	%mkrel 7
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -226,7 +226,7 @@ written in perl.
 %patch2 -p0 -b .build_fix
 
 # OE: added from fedora
-#patch16 -p1 -b .sensors <- requires lmsensors-3.x, but we still have v2.x for some mysterious reason...
+%patch16 -p1 -b .sensors
 %patch17 -p0 -b .xen-crash
 %patch21 -p1 -b .ipv6-sock-close
 %patch22 -p0 -b .readonly
@@ -258,9 +258,7 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 bzip2 ChangeLog
 
 # regenerate configure script
-libtoolize --copy --force
-aclocal
-autoconf
+autoreconf -f -i
 
 %build
 %serverbuild
@@ -277,6 +275,12 @@ export LDFLAGS="-L%{_libdir}"
 
 export NETSNMP_DONT_CHECK_VERSION=1
 
+MIBS="host agentx smux \
+     ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \
+    ip-mib/ipv4InterfaceTable ip-mib/ipv6InterfaceTable \
+    ip-mib/ipAddressPrefixTable/ipAddressPrefixTable ucd-snmp/lmsensorsMib"
+
+
 %configure2_5x \
 %if %{build_rpm}
     --with-rpm \
@@ -290,11 +294,7 @@ export NETSNMP_DONT_CHECK_VERSION=1
     --with-sys-location="Unknown" \
     --with-logfile="/var/log/snmpd.log" \
     --with-persistent-directory="/var/lib/net-snmp" \
-%ifarch %{ix86} x86_64
-    --with-mib-modules="host agentx smux ucd-snmp/lmSensors ucd-snmp/diskio disman/event-mib" \
-%else
-    --with-mib-modules="host agentx smux disman/event-mib" \
-%endif
+    --with-mib-modules="$MIBS" \
     --with-libwrap \
     --sysconfdir=%{_sysconfdir} \
     --enable-ipv6 \

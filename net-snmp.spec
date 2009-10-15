@@ -8,7 +8,7 @@
 %define Werror_cflags %{nil}
 %endif
 
-%define major 15
+%define major 20
 %define libname %mklibname net-snmp %{major}
 %define develname %mklibname -d net-snmp
 %define staticdevelname %mklibname -d -s net-snmp
@@ -21,8 +21,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.4.2.1
-Release: 	%mkrel 7
+Version: 	5.5
+Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -42,28 +42,17 @@ Source13:	net-snmpd.sysconfig
 Source14:	net-snmptrapd.sysconfig
 Patch0:		net-snmp-5.1-nodb.patch
 Patch1:		net-snmp-lvalue.patch
-Patch2:		net-snmp-5.4.1-build_fix.diff
 # OE: stolen from fedora
-Patch16:	net-snmp-5.4.1-sensors3.patch
-Patch17:	net-snmp-5.4.1-xen-crash.patch
 Patch21:	net-snmp-5.0.8-ipv6-sock-close.patch
 Patch22:	net-snmp-5.0.8-readonly.patch
 Patch24:	net-snmp-pie.diff
 Patch26:	net-snmp-5.1.2-dir-fix.patch
 Patch27:	net-snmp-5.2.1-file_offset.patch
-Patch28:	ucd-snmp-4.2.4.pre3-mnttab.patch
 Patch30:	net-snmp-5.3-agent-registry-unregister-free.patch
 # Extra MDK patches
-Patch50:	net-snmp-64bit-fixes.diff
-# (gb) remove built-in libtool 1.4 and use the system one instead, be
-# on the safe side and don't touch to the rest
-Patch52:	net-snmp-no_bundled_libtool.diff
+Patch52:	net-snmp-5.5-gcc4-format-fix.patch
 Patch53:	net-snmp-no_perlinstall.diff
-# (misc) https://qa.mandriva.com/show_bug.cgi?id=41592
-Patch54:    net-snmp-fixCVE-2008-2292.diff
-Patch55:	net-snmp-5.4.2.1-format_not_a_string_literal_and_no_format_arguments.diff
-Patch56:	net-snmp-5.4.2-CVE-2008-6123.diff
-Patch57:	net-snmp-5.4.2.1-gcc4-format-fix.patch
+Patch54:	net-snmp-5.5-lm_sensors_v3.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -88,6 +77,7 @@ BuildRequires:	perl-devel
 BuildRequires:	rpm-devel
 %endif
 BuildRequires:	tcp_wrappers-devel
+BuildRequires:	mysql-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -223,11 +213,8 @@ written in perl.
 %setup -q
 %patch0 -p0 -b .nodb
 %patch1 -p1 -b .lvalue
-%patch2 -p0 -b .build_fix
 
 # OE: added from fedora
-%patch16 -p1 -b .sensors
-%patch17 -p0 -b .xen-crash
 %patch21 -p1 -b .ipv6-sock-close
 %patch22 -p0 -b .readonly
 %ifnarch ia64
@@ -235,17 +222,13 @@ written in perl.
 %endif
 %patch26 -p0 -b .dir-fix
 %patch27 -p1 -b .file_offset
-%patch28 -p0 -b .mnttab
 
 # Extra MDK patches
-%patch50 -p1 -b .64bit-fixes
-%patch52 -p0 -b .libtool
+%patch52 -p0 -b .gcc4-format-fix
 %patch53 -p0 -b .no_perlinstall
-
-#%patch54 -p2
-%patch55 -p1 -b .format_not_a_string_literal_and_no_format_arguments
-%patch56 -p0 -b .CVE-2008-6123
-%patch57 -p1 -b .snmp_error-format-fix
+%if %mdkversion >= 201000
+%patch54 -p0 -b .lm_sensors_v3
+%endif
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir
@@ -302,6 +285,8 @@ MIBS="host agentx smux \
     --with-default-snmp-version="3" \
     --enable-embedded-perl \
     --enable-as-needed \
+    --with-mnttab="/etc/mtab" \
+    --with-mysql \
     --with-sys-contact="root@localhost" <<EOF
 
 
@@ -391,6 +376,7 @@ file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
 %if %mdkversion >= 1020
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-config
 %multiarch_includes %{buildroot}%{_includedir}/net-snmp/net-snmp-config.h
+%multiarch_binaries %{buildroot}%{_bindir}/net-snmp-create-v3-user
 %endif
 
 %post
@@ -438,6 +424,7 @@ rm -rf %{buildroot}
 
 %files trapd
 %defattr(-,root,root,-)
+%doc dist/schema-snmptrapd.sql README.sql
 %attr(0755,root,root) %{_initrddir}/snmptrapd
 %attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/snmp/snmptrapd.conf
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/snmptrapd
@@ -453,6 +440,10 @@ rm -rf %{buildroot}
 %{_bindir}/ipf-mod.pl
 %{_bindir}/mib2c
 %{_bindir}/mib2c-update
+%{_bindir}/net-snmp-create-v3-user
+%if %mdkversion >= 1020
+%multiarch %{multiarch_bindir}/net-snmp-create-v3-user
+%endif
 %{_bindir}/snmpbulkget
 %{_bindir}/snmpbulkwalk
 %{_bindir}/snmpconf
@@ -481,6 +472,7 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_mandir}/man1/fixproc.1*
 %attr(0644,root,root) %{_mandir}/man1/mib2c-update.1*
 %attr(0644,root,root) %{_mandir}/man1/mib2c.1*
+%attr(0644,root,root) %{_mandir}/man1/net-snmp-create-v3-user.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpbulkget.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpbulkwalk.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpcmd.1*
@@ -550,3 +542,4 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_bindir}/tkmib
 %{_mandir}/man1/tkmib.1*
+

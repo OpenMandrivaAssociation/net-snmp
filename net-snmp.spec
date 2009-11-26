@@ -94,8 +94,11 @@ contains NET-SNMP utilities.
 %package -n	%{libname}
 Summary:	Libraries for Network management (SNMP), from the NET-SNMP project
 Group:		System/Libraries
-Provides:	%{mklibname net-snmp 9} %{mklibname net-snmp 5} %{mklibname net-snmp 50} %{mklibname net-snmp 51} %{mklibname snmp 0}
-Obsoletes:	%{mklibname net-snmp 9} %{mklibname net-snmp 5} %{mklibname net-snmp 50} %{mklibname net-snmp 51} %{mklibname snmp 0}
+Obsoletes:	%{mklibname snmp 0}
+Obsoletes:	%{mklibname net-snmp 5}
+Obsoletes:	%{mklibname net-snmp 9}
+Obsoletes:	%{mklibname net-snmp 50}
+Obsoletes:	%{mklibname net-snmp 51}
 Obsoletes:	ucd-snmp
 Requires:	openssl
 
@@ -108,8 +111,12 @@ Summary:	The development environment for the NET-SNMP project
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	libnet-snmp-devel
-Provides:	%{mklibname net-snmp 9}-devel %{mklibname net-snmp 5}-devel %{mklibname net-snmp 50}-devel %{mklibname net-snmp 51}-devel %{mklibname snmp 0}-devel %{mklibname net-snmp 10}-devel = %{version}-%{release}
-Obsoletes:	%{mklibname net-snmp 9}-devel %{mklibname net-snmp 5}-devel %{mklibname net-snmp 50}-devel %{mklibname net-snmp 51}-devel %{mklibname snmp 0}-devel %{mklibname net-snmp 10}-devel 
+Obsoletes:	%{mklibname snmp 0}-devel
+Obsoletes:	%{mklibname net-snmp 10}-devel 
+Obsoletes:	%{mklibname net-snmp 9}-devel
+Obsoletes:	%{mklibname net-snmp 5}-devel
+Obsoletes:	%{mklibname net-snmp 50}-devel
+Obsoletes:	%{mklibname net-snmp 51}-devel
 Requires:	%{libname} = %{version}
 Requires:	tcp_wrappers-devel
 %ifarch %{ix86} x86_64
@@ -129,8 +136,12 @@ for use with the NET-SNMP project's network management tools.
 Summary:	The static development libraries for the NET-SNMP project
 Group:		Development/C
 Provides:	%{name}-static-devel
-Provides:	%{mklibname net-snmp 9}-static-devel %{mklibname net-snmp 5}-static-devel %{mklibname net-snmp 50}-static-devel %{mklibname net-snmp 51}-static-devel %{mklibname snmp 0}-static-devel %{mklibname net-snmp 10}-static-devel = %{version}-%{release}
-Obsoletes:	%{mklibname net-snmp 9}-static-devel %{mklibname net-snmp 5}-static-devel %{mklibname net-snmp 50}-static-devel %{mklibname net-snmp 51}-static-devel %{mklibname snmp 0}-static-devel %{mklibname net-snmp 10}-static-devel
+Obsoletes:	%{mklibname snmp 0}-static-devel
+Obsoletes:	%{mklibname net-snmp 5}-static-devel
+Obsoletes:	%{mklibname net-snmp 9}-static-devel
+Obsoletes:	%{mklibname net-snmp 10}-static-devel
+Obsoletes:	%{mklibname net-snmp 50}-static-devel
+Obsoletes:	%{mklibname net-snmp 51}-static-devel
 Requires:	%{develname} = %{version}
 Requires:	%{libname} = %{version}
 

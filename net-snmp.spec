@@ -272,8 +272,11 @@ export NETSNMP_DONT_CHECK_VERSION=1
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \
     ip-mib/ipv4InterfaceTable ip-mib/ipv6InterfaceTable \
-    ip-mib/ipAddressPrefixTable/ipAddressPrefixTable ucd-snmp/lmsensorsMib"
-
+    ip-mib/ipAddressPrefixTable/ipAddressPrefixTable \
+    ip-mib/ipDefaultRouterTable/ipDefaultRouterTable \
+    ip-mib/ipv6ScopeZoneIndexTable ip-mib/ipIfStatsTable \
+    sctp-mib rmon-mib etherlike-mib \
+    ucd-snmp/lmsensorsMib"
 
 %configure2_5x \
 %if %{build_rpm}

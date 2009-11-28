@@ -347,10 +347,6 @@ perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la
 # nuke rpath
 find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 
-# strip these manually because otherwise they won't get stripped for some reason...
-file %{buildroot}%{_bindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
-file %{buildroot}%{_sbindir}/* | grep ELF | cut -d':' -f1 | xargs strip || :
-
 %if %mdkversion >= 1020
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-config
 %multiarch_includes %{buildroot}%{_includedir}/net-snmp/net-snmp-config.h

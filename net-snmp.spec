@@ -325,30 +325,21 @@ rm -f %{buildroot}%{_bindir}/snmpcheck
 ln -s snmptrap %{buildroot}%{_bindir}/snmpinform
 
 # install some extra stuff...
-install -m644 mibs/DISMAN-EVENT-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/LM-SENSORS-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/MTA-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/NET-SNMP-MONITOR-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/NET-SNMP-SYSTEM-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/NET-SNMP-TC.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/NETWORK-SERVICES-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/TUNNEL-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/UCD-IPFILTER-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/UCD-SNMP-MIB-OLD.txt %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/ianalist %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/rfclist %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 mibs/rfcmibs.diff %{buildroot}%{_datadir}/snmp/mibs/
-install -m755 mibs/mibfetch %{buildroot}%{_datadir}/snmp/mibs/
-install -m755 mibs/smistrip %{buildroot}%{_datadir}/snmp/mibs/
-install -m755 mibs/Makefile.mib %{buildroot}%{_datadir}/snmp/mibs/
-install -m644 man/mib2c.1 %{buildroot}%{_mandir}/man1/mib2c.1
-install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/snmp/mibs/NOTIFICATION-TEST-MIB.txt
-install -m 0644 %{SOURCE12} %{buildroot}%{_datadir}/snmp/mibs/TRAP-TEST-MIB.txt
-install -m 0644 %{SOURCE13} %{buildroot}%{_sysconfdir}/sysconfig/snmpd
-install -m 0644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sysconfig/snmptrapd
-
-# fix strange permissions
-find %{buildroot}%{_datadir}/snmp/ -type f | xargs chmod 644
+install -m 644 mibs/NET-SNMP-MONITOR-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/NET-SNMP-SYSTEM-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/TUNNEL-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/UCD-IPFILTER-MIB.txt %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/UCD-SNMP-MIB-OLD.txt %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/ianalist %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/rfclist %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/rfcmibs.diff %{buildroot}%{_datadir}/snmp/mibs/
+install -m 755 mibs/mibfetch %{buildroot}%{_datadir}/snmp/mibs/
+install -m 755 mibs/smistrip %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 mibs/Makefile.mib %{buildroot}%{_datadir}/snmp/mibs/
+install -m 644 %{SOURCE11} %{buildroot}%{_datadir}/snmp/mibs/NOTIFICATION-TEST-MIB.txt
+install -m 644 %{SOURCE12} %{buildroot}%{_datadir}/snmp/mibs/TRAP-TEST-MIB.txt
+install -m 644 %{SOURCE13} %{buildroot}%{_sysconfdir}/sysconfig/snmpd
+install -m 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sysconfig/snmptrapd
 
 # fix one bug
 perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la

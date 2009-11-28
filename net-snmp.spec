@@ -40,19 +40,14 @@ Source11:	NOTIFICATION-TEST-MIB.txt
 Source12:	TRAP-TEST-MIB.txt
 Source13:	net-snmpd.sysconfig
 Source14:	net-snmptrapd.sysconfig
-Patch0:		net-snmp-5.1-nodb.patch
-Patch1:		net-snmp-lvalue.patch
 # OE: stolen from fedora
-Patch21:	net-snmp-5.0.8-ipv6-sock-close.patch
-Patch22:	net-snmp-5.0.8-readonly.patch
-Patch24:	net-snmp-pie.diff
-Patch26:	net-snmp-5.1.2-dir-fix.patch
-Patch27:	net-snmp-5.2.1-file_offset.patch
-Patch30:	net-snmp-5.3-agent-registry-unregister-free.patch
-# Extra MDK patches
-Patch52:	net-snmp-5.5-gcc4-format-fix.patch
-Patch53:	net-snmp-no_perlinstall.diff
-Patch54:	net-snmp-5.5-lm_sensors_v3.diff
+Patch1:		net-snmp-5.4.1-pie.patch
+Patch2:		net-snmp-5.5-dir-fix.patch
+Patch3:		net-snmp-5.5-multilib.patch
+Patch4:		net-snmp-5.5-sensors3.patch 
+# mdv patches
+Patch52:   net-snmp-5.5-gcc4-format-fix.patch
+Patch53:   net-snmp-5.5-fix-perl-install.patch
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -63,7 +58,6 @@ Requires:	openssl
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	tcp_wrappers
-BuildRequires:	autoconf2.5 >= 2.59
 BuildRequires:	chrpath
 %ifarch %{ix86} x86_64
 BuildRequires:	lm_sensors-devel
@@ -220,26 +214,19 @@ files provide the perl functions for integration of SNMP into applications,
 written in perl.
 
 %prep
-
 %setup -q
-%patch0 -p0 -b .nodb
-%patch1 -p1 -b .lvalue
 
-# OE: added from fedora
-%patch21 -p1 -b .ipv6-sock-close
-%patch22 -p0 -b .readonly
-%ifnarch ia64
-%patch24 -p1 -b .pie
-%endif
-%patch26 -p0 -b .dir-fix
-%patch27 -p1 -b .file_offset
+# fedora patches
+%patch1 -p1 -b .pie
+%patch2 -p1 -b .dir-fix
+%patch3 -p1 -b .multilib
 
-# Extra MDK patches
-%patch52 -p0 -b .gcc4-format-fix
-%patch53 -p0 -b .no_perlinstall
 %if %mdkversion >= 201000
-%patch54 -p0 -b .lm_sensors_v3
+%patch4 -p1 -b .sensors3
 %endif
+
+# mdv patches
+%patch52 -p0 -b .gcc4-format-fix
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir
@@ -251,23 +238,13 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 
 bzip2 ChangeLog
 
-# regenerate configure script
-autoreconf -f -i
-
 %build
 %serverbuild
-
-%if %mdkversion >= 200710
-export CFLAGS="$CFLAGS -fPIC"
-export CXXFLAGS="$CXXFLAGS -fPIC"
-export FFLAGS="$FFLAGS -fPIC"
-%endif
 
 %ifarch ia64 x86_64 s390x ppc64
 export LDFLAGS="-L%{_libdir}"
 %endif
-
-export NETSNMP_DONT_CHECK_VERSION=1
+export LIBDIR="%{_libdir}" 
 
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \
@@ -286,30 +263,31 @@ MIBS="host agentx smux \
 %endif
     --enable-static \
     --enable-shared \
-    --with-perl-modules="INSTALLDIRS=vendor" \
+    --sysconfdir=%{_sysconfdir} \
+    --enable-ipv6 \
+    --enable-ucd-snmp-compatibility \
+    --enable-embedded-perl \
+    --enable-as-needed \
+    --with-pic \
     --with-cflags="$CFLAGS -D_REENTRANT" \
-    --with-sys-location="Unknown" \
+    --with-ldflags="$LDFLAGS -lcrypto -lsensors" \
     --with-logfile="/var/log/snmpd.log" \
     --with-persistent-directory="/var/lib/net-snmp" \
     --with-mib-modules="$MIBS" \
     --with-libwrap \
-    --sysconfdir=%{_sysconfdir} \
-    --enable-ipv6 \
-    --enable-ucd-snmp-compatibility \
-    --with-default-snmp-version="3" \
-    --enable-embedded-perl \
-    --enable-as-needed \
+    --with-openssl \
+    --with-perl-modules="INSTALLDIRS=vendor" \
     --with-mnttab="/etc/mtab" \
     --with-mysql \
+    --with-default-snmp-version="3" \
+    --with-sys-location="Unknown" \
     --with-sys-contact="root@localhost" <<EOF
-
 
 EOF
 
-# sctp-mib does not build yet
-
 # XXX autojunk
-sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," include/net-snmp/net-snmp-config.h
+sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," \
+    include/net-snmp/net-snmp-config.h
 
 make
 
@@ -323,13 +301,8 @@ make
 
 %install
 rm -rf %{buildroot}
-
-%makeinstall \
-    includedir=%{buildroot}%{_includedir}/net-snmp \
-    ucdincludedir=%{buildroot}%{_includedir}/net-snmp/ucd-snmp
-
-# the perl code needs special treatment
-%makeinstall_std -C perl
+%makeinstall_std \
+    ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
 
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig

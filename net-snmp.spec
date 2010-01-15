@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.5
-Release: 	%mkrel 2
+Release: 	%mkrel 3
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/

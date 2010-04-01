@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.5
-Release: 	%mkrel 5
+Release: 	%mkrel 6
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -45,6 +45,9 @@ Patch1:		net-snmp-5.4.1-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
 Patch3:		net-snmp-5.5-multilib.patch
 Patch4:		net-snmp-5.5-sensors3.patch 
+Patch5:		net-snmp-5.5-udptable-index.patch
+Patch6:		net-snmp-5.5-missing-bcast.patch
+Patch7:		net-snmp-5.5-tcp-pid.patch
 # mdv patches
 Patch52:   net-snmp-5.5-gcc4-format-fix.patch
 Patch53:   net-snmp-5.5-fix-perl-install.patch
@@ -225,6 +228,10 @@ written in perl.
 %patch4 -p1 -b .sensors3
 %endif
 
+%patch5 -p1 -b .udptable-index
+%patch6 -p1 -b .missing-bcast
+%patch7 -p1 -b .tcp-pid
+
 # mdv patches
 %patch52 -p0 -b .gcc4-format-fix
 
@@ -244,7 +251,7 @@ bzip2 ChangeLog
 %ifarch ia64 x86_64 s390x ppc64
 export LDFLAGS="-L%{_libdir}"
 %endif
-export LIBDIR="%{_libdir}" 
+export LIBDIR="%{_libdir}"
 
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \

@@ -21,8 +21,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.5
-Release: 	%mkrel 10
+Version: 	5.6
+Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -45,12 +45,6 @@ Patch1:		net-snmp-5.4.1-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
 Patch3:		net-snmp-5.5-multilib.patch
 Patch4:		net-snmp-5.5-sensors3.patch 
-Patch5:		net-snmp-5.5-udptable-index.patch
-Patch6:		net-snmp-5.5-missing-bcast.patch
-Patch7:		net-snmp-5.5-tcp-pid.patch
-# mdv patches
-Patch52:   net-snmp-5.5-gcc4-format-fix.patch
-Patch53:   net-snmp-5.5-fix-perl-install.patch
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -225,15 +219,10 @@ written in perl.
 %patch3 -p1 -b .multilib
 
 %if %mdkversion >= 201000
-%patch4 -p1 -b .sensors3
+#%%patch4 -p1 -b .sensors3
 %endif
 
-%patch5 -p1 -b .udptable-index
-%patch6 -p1 -b .missing-bcast
-%patch7 -p1 -b .tcp-pid
-
 # mdv patches
-%patch52 -p0 -b .gcc4-format-fix
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir
@@ -416,15 +405,18 @@ rm -rf %{buildroot}
 
 %files utils
 %defattr(-,root,root,-)
+%{_bindir}/agentxtrap
 %{_bindir}/encode_keychange
 %{_bindir}/fixproc
 %{_bindir}/ipf-mod.pl
 %{_bindir}/mib2c
 %{_bindir}/mib2c-update
+%{_bindir}/net-snmp-cert
 %{_bindir}/net-snmp-create-v3-user
 %if %mdkversion >= 1020
 %multiarch %{multiarch_bindir}/net-snmp-create-v3-user
 %endif
+%{_bindir}/snmp-bridge-mib
 %{_bindir}/snmpbulkget
 %{_bindir}/snmpbulkwalk
 %{_bindir}/snmpconf
@@ -449,11 +441,13 @@ rm -rf %{buildroot}
 %{_datadir}/snmp/snmp_perl.pl
 %{_datadir}/snmp/snmp_perl_trapd.pl
 %{_datadir}/snmp/*.conf
+%attr(0644,root,root) %{_mandir}/man1/agentxtrap.1*
 %attr(0644,root,root) %{_mandir}/man1/encode_keychange.1*
 %attr(0644,root,root) %{_mandir}/man1/fixproc.1*
-%attr(0644,root,root) %{_mandir}/man1/mib2c-update.1*
 %attr(0644,root,root) %{_mandir}/man1/mib2c.1*
+%attr(0644,root,root) %{_mandir}/man1/mib2c-update.1*
 %attr(0644,root,root) %{_mandir}/man1/net-snmp-create-v3-user.1*
+%attr(0644,root,root) %{_mandir}/man1/snmp-bridge-mib.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpbulkget.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpbulkwalk.1*
 %attr(0644,root,root) %{_mandir}/man1/snmpcmd.1*

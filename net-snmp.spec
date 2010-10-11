@@ -8,7 +8,7 @@
 %define Werror_cflags %{nil}
 %endif
 
-%define major 20
+%define major 25
 %define libname %mklibname net-snmp %{major}
 %define develname %mklibname -d net-snmp
 %define staticdevelname %mklibname -d -s net-snmp
@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.6
-Release: 	%mkrel 2
+Release: 	%mkrel 3
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -90,6 +90,7 @@ Obsoletes:	%{mklibname net-snmp 5}
 Obsoletes:	%{mklibname net-snmp 9}
 Obsoletes:	%{mklibname net-snmp 50}
 Obsoletes:	%{mklibname net-snmp 51}
+Obsoletes:	%{mklibname net-snmp 20}
 Obsoletes:	ucd-snmp
 Requires:	openssl
 
@@ -477,7 +478,7 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root,-)
-%{_libdir}/lib*.so.*
+%{_libdir}/lib*.so.%{major}*
 
 %files -n %{develname}
 %defattr(0644,root,root,755)

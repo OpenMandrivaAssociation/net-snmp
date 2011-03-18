@@ -374,7 +374,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
 %doc AGENT.txt EXAMPLE.conf FAQ INSTALL NEWS TODO
 %doc README README.agent* README.krb5 README.snmpv3 README.thread
 %doc local/passtest local/README.mib2c local/ipf-mod.pl
@@ -394,7 +393,6 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_mandir}/man8/snmpd.8*
 
 %files trapd
-%defattr(-,root,root,-)
 %doc dist/schema-snmptrapd.sql README.sql
 %attr(0755,root,root) %{_initrddir}/snmptrapd
 %attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/snmp/snmptrapd.conf
@@ -472,22 +470,16 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_mandir}/man5/mib2c.conf.5*
 
 %files mibs
-%defattr(-,root,root,-)
 %doc mibs/README.mibs
 %{_datadir}/snmp/mibs
 
 %files -n %{libname}
-%defattr(-,root,root,-)
 %{_libdir}/lib*.so.%{major}*
 
 %files -n %{develname}
-%defattr(0644,root,root,755)
-%defattr(-,root,root,-)
 %doc ChangeLog.bz2
-%if %mdkversion >= 1020
 %multiarch %{multiarch_bindir}/net-snmp-config
 %multiarch %{multiarch_includedir}/net-snmp/net-snmp-config.h
-%endif
 %{_bindir}/net-snmp-config
 %{_libdir}/*.so
 %{_libdir}/*.la
@@ -512,12 +504,9 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_mandir}/man1/net-snmp-config.1*
 
 %files -n %{staticdevelname}
-%defattr(0644,root,root,755)
-%defattr(-,root,root,-)
 %{_libdir}/*.a
 
 %files -n perl-NetSNMP
-%defattr(0644,root,root,755)
 %{perl_vendorarch}/auto/NetSNMP
 %{perl_vendorarch}/auto/SNMP
 %{perl_vendorarch}/SNMP.pm
@@ -527,7 +516,5 @@ rm -rf %{buildroot}
 %{_mandir}/man3/SNMP.3*
 
 %files tkmib
-%defattr(-,root,root)
 %{_bindir}/tkmib
 %{_mandir}/man1/tkmib.1*
-

@@ -491,12 +491,24 @@ rm -rf %{buildroot}
 %{_bindir}/net-snmp-config
 %{_libdir}/*.so
 %{_libdir}/*.la
-#%{_includedir}/ucd-snmp
-%{_includedir}/net-snmp
-%{_includedir}/net-snmp/net-snmp-config.h
-%{_mandir}/man3/*
+%dir %{_includedir}/net-snmp
+%{_includedir}/net-snmp/*.h
+%dir %{_includedir}/net-snmp/agent
+%{_includedir}/net-snmp/agent/*.h
+%dir %{_includedir}/net-snmp/machine
+%{_includedir}/net-snmp/machine/*.h
+%dir %{_includedir}/net-snmp/library
+%{_includedir}/net-snmp/library/*.h
+%{_includedir}/net-snmp/library/README
+%dir %{_includedir}/net-snmp/system
+%{_includedir}/net-snmp/system/*.h
+%dir %{_includedir}/net-snmp/ucd-snmp
+%{_includedir}/net-snmp/ucd-snmp/*.h
 %dir /var/lib/net-snmp
 %dir /var/agentx/master
+%{_mandir}/man3/*
+%exclude %{_mandir}/man3/NetSNMP*
+%exclude %{_mandir}/man3/SNMP.3*
 %attr(0644,root,root) %{_mandir}/man1/net-snmp-config.1*
 
 %files -n %{staticdevelname}

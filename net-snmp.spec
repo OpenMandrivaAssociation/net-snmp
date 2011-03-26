@@ -49,8 +49,6 @@ Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
-Requires(pre): %{libname} = %{version}
-Requires(postun): %{libname} = %{version}
 Requires:	openssl
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
@@ -148,7 +146,6 @@ applications for use with the NET-SNMP project's network management tools.
 %package	utils
 Summary:	Network management utilities using SNMP, from the NET-SNMP project
 Group:		Networking/Other
-Requires:	%{libname} = %{version}
 Requires:	openssl
 Requires:	net-snmp-mibs
 Obsoletes:	ucd-snmp-util ucd-snmp-utils
@@ -183,7 +180,6 @@ Group:		System/Servers
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires:	%{name} = %{version}
-Requires:	%{libname} = %{version}
 Requires:	openssl
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
@@ -200,7 +196,6 @@ the SNMP protocol.
 Summary:	Perl utilities using SNMP, from the NET-SNMP project
 Group: 		Development/Perl
 Requires:	%{name} = %{version}
-Requires:	%{libname} = %{version}
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 

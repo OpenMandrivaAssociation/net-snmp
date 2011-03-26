@@ -198,6 +198,7 @@ Group: 		Development/Perl
 Requires:	%{name} = %{version}
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
+Conflicts:	%{name}-devel < 5.6.1-5
 
 %description -n	perl-NetSNMP
 NET SNMP (Simple Network Management Protocol) Perl5 Support The Simple Network

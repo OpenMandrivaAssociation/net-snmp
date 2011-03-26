@@ -234,7 +234,7 @@ bzip2 ChangeLog
 %build
 %serverbuild
 
-%ifarch ia64 x86_64 s390x ppc64
+%if %{_lib} == lib64
 export LDFLAGS="-L%{_libdir}"
 %endif
 export LIBDIR="%{_libdir}"

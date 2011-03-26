@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.6.1
-Release: 	%mkrel 5
+Release: 	%mkrel 6
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -233,11 +233,6 @@ bzip2 ChangeLog
 
 %build
 %serverbuild
-
-%if %{_lib} == lib64
-export LDFLAGS="-L%{_libdir}"
-%endif
-export LIBDIR="%{_libdir}"
 
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \

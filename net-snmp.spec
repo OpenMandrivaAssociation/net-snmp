@@ -45,6 +45,7 @@ Patch1:		net-snmp-5.4.1-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
 Patch3:		net-snmp-5.5-multilib.patch
 Patch4:		net-snmp-5.5-sensors3.patch 
+Patch5:		net-snmp-5.6.1-add-pythoninstall-destdir.patch
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
@@ -207,13 +208,26 @@ information between agents (servers) and clients.  The NET SNMP perl5 support
 files provide the perl functions for integration of SNMP into applications,
 written in perl.
 
+%package -n	python-netsnmp
+Summary:	Python utilities using SNMP, from the NET-SNMP project
+Group: 		Development/Python
+Requires:	%{name} = %{version}
+Requires:	net-snmp-mibs
+Requires:	net-snmp-utils
+
+%description -n	python-netsnmp
+The 'netsnmp' module provides a full featured, tri-lingual SNMP (SNMPv3, 
+SNMPv2c, SNMPv1) client API. The 'netsnmp' module internals rely on the
+Net-SNMP toolkit library.
+
 %prep
 %setup -q
 
 # fedora patches
-%patch1 -p1 -b .pie
-%patch2 -p1 -b .dir-fix
-%patch3 -p1 -b .multilib
+%patch1 -p1 -b .pie~
+%patch2 -p1 -b .dir-fix~
+%patch3 -p1 -b .multilib~
+%patch5 -p1 -b .py_destdir~
 
 %if %mdkversion >= 201000
 #%%patch4 -p1 -b .sensors3
@@ -255,6 +269,7 @@ MIBS="host agentx smux \
     --enable-ipv6 \
     --enable-ucd-snmp-compatibility \
     --enable-embedded-perl \
+    --with-python-modules \
     --enable-as-needed \
     --with-pic \
     --with-cflags="$CFLAGS -D_REENTRANT" \
@@ -497,6 +512,17 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/Bundle/Makefile.subs.pl
 %{_mandir}/man3/NetSNMP*
 %{_mandir}/man3/SNMP.3*
+
+%files -n python-netsnmp
+%dir %{python_sitearch}/netsnmp
+%{python_sitearch}/netsnmp/__init__.py
+%{python_sitearch}/netsnmp/client.py
+%{python_sitearch}/netsnmp/client_intf.so
+%dir %{python_sitearch}/netsnmp/tests
+%{python_sitearch}/netsnmp/tests/__init__.py
+%{python_sitearch}/netsnmp/tests/test.py
+%dir %{python_sitearch}/netsnmp_python*-py%{py_ver}.egg-info
+%{python_sitearch}/netsnmp_python*-py%{py_ver}.egg-info/*
 
 %files tkmib
 %{_bindir}/tkmib

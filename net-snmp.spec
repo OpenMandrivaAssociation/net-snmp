@@ -68,7 +68,7 @@ BuildRequires:	rpm-devel
 %endif
 BuildRequires:	tcp_wrappers-devel
 BuildRequires:	mysql-devel
-
+BuildRequires:	python-setuptools
 
 %description
 SNMP (Simple Network Management Protocol) is a protocol used for network

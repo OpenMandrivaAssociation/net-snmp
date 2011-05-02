@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.6.1
-Release: 	%mkrel 6
+Release: 	%mkrel 7
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -57,9 +57,6 @@ Requires:	tcp_wrappers
 BuildRequires:	chrpath
 %ifarch %{ix86} x86_64
 BuildRequires:	lm_sensors-devel
-%endif
-%if %mdkversion >= 1020
-BuildRequires:	multiarch-utils >= 1.0.3
 %endif
 BuildRequires:	openssl-devel
 BuildRequires:	perl-devel
@@ -350,11 +347,11 @@ perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la
 # nuke rpath
 find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 
-%if %mdkversion >= 1020
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-config
+
 %multiarch_includes %{buildroot}%{_includedir}/net-snmp/net-snmp-config.h
+
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-create-v3-user
-%endif
 
 %post
 %_post_service snmpd
@@ -410,9 +407,7 @@ rm -rf %{buildroot}
 %{_bindir}/mib2c-update
 %{_bindir}/net-snmp-cert
 %{_bindir}/net-snmp-create-v3-user
-%if %mdkversion >= 1020
-%multiarch %{multiarch_bindir}/net-snmp-create-v3-user
-%endif
+%{multiarch_bindir}/net-snmp-create-v3-user
 %{_bindir}/snmp-bridge-mib
 %{_bindir}/snmpbulkget
 %{_bindir}/snmpbulkwalk
@@ -476,8 +471,8 @@ rm -rf %{buildroot}
 
 %files -n %{develname}
 %doc ChangeLog.bz2
-%multiarch %{multiarch_bindir}/net-snmp-config
-%multiarch %{multiarch_includedir}/net-snmp/net-snmp-config.h
+%{multiarch_bindir}/net-snmp-config
+%{multiarch_includedir}/net-snmp/net-snmp-config.h
 %{_bindir}/net-snmp-config
 %{_libdir}/*.so
 %{_libdir}/*.la

@@ -55,9 +55,7 @@ Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	tcp_wrappers
 BuildRequires:	chrpath
-%ifarch %{ix86} x86_64
 BuildRequires:	lm_sensors-devel
-%endif
 BuildRequires:	openssl-devel
 BuildRequires:	perl-devel
 %if %{build_rpm}

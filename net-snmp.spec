@@ -22,7 +22,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.7
-Release: 	%mkrel 1
+Release: 	%mkrel 2
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -350,10 +350,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %multiarch_includes %{buildroot}%{_includedir}/net-snmp/net-snmp-config.h
 
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-create-v3-user
-
-%if "%{_lib}" == "lib64"
-perl -pi -e "s|-L/usr/lib\b|-L%{_libdir}|g" %{buildroot}%{_libdir}/*.la
-%endif
 
 %post
 %_post_service snmpd

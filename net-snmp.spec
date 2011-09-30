@@ -21,8 +21,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.7
-Release: 	%mkrel 2
+Version: 	5.7.1
+Release: 	%mkrel 1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -498,7 +498,6 @@ rm -rf %{buildroot}
 %{_libdir}/*.a
 
 %files -n perl-NetSNMP
-%{perl_vendorarch}/auto/Bundle/NetSNMP/NetSNMP.so
 %{perl_vendorarch}/auto/NetSNMP
 %{perl_vendorarch}/auto/SNMP
 %{perl_vendorarch}/SNMP.pm

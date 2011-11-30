@@ -1,3 +1,4 @@
+# not really needed anymore, but leaving for just incase legacy issues
 %define _requires_exceptions devel(libperl
 
 %if %mdkversion >= 200810
@@ -22,7 +23,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.7.1
-Release: 	%mkrel 1
+Release: 	2
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -86,7 +87,6 @@ Obsoletes:	%{mklibname net-snmp 9}
 Obsoletes:	%{mklibname net-snmp 50}
 Obsoletes:	%{mklibname net-snmp 51}
 Obsoletes:	%{mklibname net-snmp 20}
-Requires:	openssl
 
 %description -n	%{libname}
 The %{libname} package contains the libraries for use with the NET-SNMP
@@ -104,10 +104,6 @@ Obsoletes:	%{mklibname net-snmp 5}-devel
 Obsoletes:	%{mklibname net-snmp 50}-devel
 Obsoletes:	%{mklibname net-snmp 51}-devel
 Requires:	%{libname} = %{version}
-Requires:	tcp_wrappers-devel
-%ifarch %{ix86} x86_64
-Requires:	lm_sensors-devel
-%endif
 Requires:	perl-devel
 
 %description -n	%{develname}
@@ -128,7 +124,6 @@ Obsoletes:	%{mklibname net-snmp 10}-static-devel
 Obsoletes:	%{mklibname net-snmp 50}-static-devel
 Obsoletes:	%{mklibname net-snmp 51}-static-devel
 Requires:	%{develname} = %{version}
-Requires:	%{libname} = %{version}
 
 %description -n	%{staticdevelname}
 The %{staticdevelname} package contains the static development
@@ -360,9 +355,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %preun trapd
 %_preun_service snmptrapd
 
-%clean
-rm -rf %{buildroot}
-
 %files
 %doc AGENT.txt EXAMPLE.conf FAQ INSTALL NEWS TODO
 %doc README README.agent* README.krb5 README.snmpv3 README.thread
@@ -393,7 +385,6 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_mandir}/man8/snmptrapd.8*
 
 %files utils
-%defattr(-,root,root,-)
 %{_bindir}/agentxtrap
 %{_bindir}/encode_keychange
 %{_bindir}/fixproc

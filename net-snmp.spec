@@ -86,7 +86,6 @@ Obsoletes:	%{mklibname net-snmp 9}
 Obsoletes:	%{mklibname net-snmp 50}
 Obsoletes:	%{mklibname net-snmp 51}
 Obsoletes:	%{mklibname net-snmp 20}
-Obsoletes:	ucd-snmp
 Requires:	openssl
 
 %description -n	%{libname}
@@ -109,7 +108,6 @@ Requires:	tcp_wrappers-devel
 %ifarch %{ix86} x86_64
 Requires:	lm_sensors-devel
 %endif
-Obsoletes:	ucd-snmp-devel
 Requires:	perl-devel
 
 %description -n	%{develname}
@@ -145,7 +143,6 @@ Summary:	Network management utilities using SNMP, from the NET-SNMP project
 Group:		Networking/Other
 Requires:	openssl
 Requires:	net-snmp-mibs
-Obsoletes:	ucd-snmp-util ucd-snmp-utils
 
 %description	utils
 The net-snmp package contains various utilities for use with the NET-SNMP

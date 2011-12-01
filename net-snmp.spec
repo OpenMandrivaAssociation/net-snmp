@@ -52,7 +52,6 @@ Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
-Requires:	openssl
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	tcp_wrappers

@@ -232,7 +232,8 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 bzip2 ChangeLog
 
 %build
-%serverbuild
+# newly added -fPIE breaks build
+#serverbuild
 
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \

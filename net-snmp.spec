@@ -223,7 +223,7 @@ Net-SNMP toolkit library.
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir
-HERE="$RPM_BUILD_DIR/%{name}-%{version}"
+HERE="%{_builddir}/%{name}-%{version}"
 perl -pi -e "s|/tmp/snmp-test|$HERE/test_tmp_dir/snmp-test|g" testing/*
 
 # Do this patch with a perl hack...

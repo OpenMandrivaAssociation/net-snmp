@@ -23,7 +23,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.7.1
-Release: 	2
+Release: 	3
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -103,7 +103,7 @@ Obsoletes:	%{mklibname net-snmp 5}-devel
 Obsoletes:	%{mklibname net-snmp 50}-devel
 Obsoletes:	%{mklibname net-snmp 51}-devel
 Requires:	%{libname} = %{version}
-Requires:	perl-devel
+Requires:	perl-devel >= 2:5.12.3-11
 
 %description -n	%{develname}
 The %{develname} package contains the development libraries and header
@@ -232,8 +232,7 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 bzip2 ChangeLog
 
 %build
-# newly added -fPIE breaks build
-#serverbuild
+%serverbuild
 
 MIBS="host agentx smux \
      ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \

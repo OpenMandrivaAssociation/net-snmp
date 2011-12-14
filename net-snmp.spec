@@ -1,18 +1,16 @@
 # not really needed anymore, but leaving for just incase legacy issues
 %define _requires_exceptions devel(libperl
-
-%if %mdkversion >= 200810
 %define _disable_ld_no_undefined 1
-%endif
-
-%if %mdkversion >= 200910
 %define Werror_cflags %{nil}
-%endif
 
 %define major 30
-%define libname %mklibname net-snmp %{major}
+%define libname %mklibname netsnmp %{major}
+%define libagent %mklibname netsnmpagent %{major}
+%define libhelpers %mklibname netsnmphelpers %{major}
+%define libmibs %mklibname netsnmpmibs %{major}
+%define libtrapd %mklibname netsnmptrapd %{major}
+%define libsnmp %mklibname snmp %{major}
 %define develname %mklibname -d net-snmp
-%define staticdevelname %mklibname -d -s net-snmp
 
 # (oe) never enable rpm support as it eats file descriptors like crazy 
 # casuing the snmp daemon to die!.
@@ -23,7 +21,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
 Version: 	5.7.1
-Release: 	3
+Release: 	4
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
@@ -78,7 +76,7 @@ You will probably also want to install the net-snmp-utils package, which
 contains NET-SNMP utilities.
 
 %package -n	%{libname}
-Summary:	Libraries for Network management (SNMP), from the NET-SNMP project
+Summary:	Library for Network management (SNMP), from the NET-SNMP project
 Group:		System/Libraries
 Obsoletes:	%{mklibname snmp 0}
 Obsoletes:	%{mklibname net-snmp 5}
@@ -86,9 +84,56 @@ Obsoletes:	%{mklibname net-snmp 9}
 Obsoletes:	%{mklibname net-snmp 50}
 Obsoletes:	%{mklibname net-snmp 51}
 Obsoletes:	%{mklibname net-snmp 20}
+# lib renamed to proper standalone lib
+Obsoletes:	%{mklibname net-snmp 30}
 
 %description -n	%{libname}
-The %{libname} package contains the libraries for use with the NET-SNMP
+This package contains the %{name} library for use with NET-SNMP
+project's network management tools.
+
+%package -n	%{libagent}
+Summary:	Library for Network management %{name}-agent
+Group:		System/Libraries
+Conflicts:	%{mklibname net-snmp 30}
+
+%description -n	%{libagent}
+This package contains the %{name}-agent library for use with NET-SNMP
+project's network management tools.
+
+%package -n	%{libhelpers}
+Summary:	Library for Network management %{name}-helpers
+Group:		System/Libraries
+Conflicts:	%{mklibname net-snmp 30}
+
+%description -n	%{libhelpers}
+This package contains the %{name}-helpers library for use with NET-SNMP
+project's network management tools.
+
+%package -n	%{libmibs}
+Summary:	Library for Network management %{name}-mibs
+Group:		System/Libraries
+Conflicts:	%{mklibname net-snmp 30}
+
+%description -n	%{libmibs}
+This package contains the %{name}-mibs library for use with NET-SNMP
+project's network management tools.
+
+%package -n	%{libtrapd}
+Summary:	Library for Network management %{name}-trapd
+Group:		System/Libraries
+Conflicts:	%{mklibname net-snmp 30}
+
+%description -n	%{libtrapd}
+This package contains the %{name}-trapd library for use with NET-SNMP
+project's network management tools.
+
+%package -n	%{libsnmp}
+Summary:	Library for Network management snmp
+Group:		System/Libraries
+Conflicts:	%{mklibname net-snmp 30}
+
+%description -n	%{libsnmp}
+This package contains the snmp library for use with NET-SNMP
 project's network management tools.
 
 %package -n	%{develname}
@@ -102,7 +147,12 @@ Obsoletes:	%{mklibname net-snmp 9}-devel
 Obsoletes:	%{mklibname net-snmp 5}-devel
 Obsoletes:	%{mklibname net-snmp 50}-devel
 Obsoletes:	%{mklibname net-snmp 51}-devel
-Requires:	%{libname} = %{version}
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libagent} = %{version}-%{release}
+Requires:	%{libhelpers} = %{version}-%{release}
+Requires:	%{libmibs} = %{version}-%{release}
+Requires:	%{libtrapd} = %{version}-%{release}
+Requires:	%{libsnmp} = %{version}-%{release}
 Requires:	perl-devel >= 2:5.12.3-11
 
 %description -n	%{develname}
@@ -111,26 +161,6 @@ files for use with the NET-SNMP project's network management tools.
 
 Install the net-snmp-devel package if you would like to develop applications
 for use with the NET-SNMP project's network management tools.
-
-%package -n	%{staticdevelname}
-Summary:	The static development libraries for the NET-SNMP project
-Group:		Development/C
-Provides:	%{name}-static-devel
-Obsoletes:	%{mklibname snmp 0}-static-devel
-Obsoletes:	%{mklibname net-snmp 5}-static-devel
-Obsoletes:	%{mklibname net-snmp 9}-static-devel
-Obsoletes:	%{mklibname net-snmp 10}-static-devel
-Obsoletes:	%{mklibname net-snmp 50}-static-devel
-Obsoletes:	%{mklibname net-snmp 51}-static-devel
-Requires:	%{develname} = %{version}
-
-%description -n	%{staticdevelname}
-The %{staticdevelname} package contains the static development
-libraries and header files for use with the NET-SNMP project's network
-management tools.
-
-Install the net-snmp-static-devel package if you would like to develop
-applications for use with the NET-SNMP project's network management tools.
 
 %package	utils
 Summary:	Network management utilities using SNMP, from the NET-SNMP project
@@ -249,7 +279,7 @@ MIBS="host agentx smux \
 %else
     --without-rpm \
 %endif
-    --enable-static \
+    --disable-static \
     --enable-shared \
     --sysconfdir=%{_sysconfdir} \
     --enable-ipv6 \
@@ -292,6 +322,7 @@ make
 rm -rf %{buildroot}
 %makeinstall_std \
     ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
+find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
@@ -452,7 +483,22 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{_datadir}/snmp/mibs
 
 %files -n %{libname}
-%{_libdir}/lib*.so.%{major}*
+%{_libdir}/libnetsnmp.so.%{major}*
+
+%files -n %{libagent}
+%{_libdir}/libnetsnmpagent.so.%{major}*
+
+%files -n %{libhelpers}
+%{_libdir}/libnetsnmphelpers.so.%{major}*
+
+%files -n %{libmibs}
+%{_libdir}/libnetsnmpmibs.so.%{major}*
+
+%files -n %{libtrapd}
+%{_libdir}/libnetsnmptrapd.so.%{major}*
+
+%files -n %{libsnmp}
+%{_libdir}/libsnmp.so.%{major}*
 
 %files -n %{develname}
 %doc ChangeLog.bz2
@@ -460,7 +506,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{multiarch_includedir}/net-snmp/net-snmp-config.h
 %{_bindir}/net-snmp-config
 %{_libdir}/*.so
-%{_libdir}/*.la
 %dir %{_includedir}/net-snmp
 %{_includedir}/net-snmp/*.h
 %dir %{_includedir}/net-snmp/agent
@@ -480,9 +525,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %exclude %{_mandir}/man3/NetSNMP*
 %exclude %{_mandir}/man3/SNMP.3*
 %attr(0644,root,root) %{_mandir}/man1/net-snmp-config.1*
-
-%files -n %{staticdevelname}
-%{_libdir}/*.a
 
 %files -n perl-NetSNMP
 %{perl_vendorarch}/auto/NetSNMP
@@ -507,3 +549,4 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %files tkmib
 %{_bindir}/tkmib
 %{_mandir}/man1/tkmib.1*
+

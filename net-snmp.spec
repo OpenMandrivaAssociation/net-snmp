@@ -20,13 +20,14 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name: 		net-snmp
-Version: 	5.7.1
-Release: 	5
+Version: 	5.7.2
+Release: 	0.0.pre1.1
 License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
-Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
-Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
+#Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
+#Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
+Source0:	net-snmp-%{version}.pre1.tar.gz
 Source2:	net-snmpd.init
 Source3:	snmpd.conf
 Source4:	snmpd.logrotate
@@ -238,13 +239,14 @@ SNMPv2c, SNMPv1) client API. The 'netsnmp' module internals rely on the
 Net-SNMP toolkit library.
 
 %prep
-%setup -q
+
+%setup -q -n %{name}-%{version}.pre1
 
 %patch1 -p1 -b .pie~
 %patch2 -p1 -b .dir-fix~
 %patch3 -p1 -b .multilib~
 %patch5 -p1 -b .py_destdir~
-%patch6 -p1 -b .mysql
+#patch6 -p1 -b .mysql
 %patch7 -p0 -b .linkage
 
 %if %mdkversion >= 201000
@@ -519,6 +521,8 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{_includedir}/net-snmp/system/*.h
 %dir %{_includedir}/net-snmp/ucd-snmp
 %{_includedir}/net-snmp/ucd-snmp/*.h
+%dir %{_includedir}/net-snmp/agent/util_funcs
+%{_includedir}/net-snmp/agent/util_funcs/*.h
 %dir /var/lib/net-snmp
 %dir /var/agentx/master
 %{_mandir}/man3/*
@@ -549,4 +553,3 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %files tkmib
 %{_bindir}/tkmib
 %{_mandir}/man1/tkmib.1*
-

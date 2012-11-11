@@ -1,0 +1,14 @@
+sources:
+  "net-snmp-5.7.2.pre1.tar.gz:"	56af45a9c6d2cddd98de4ca2e272597c1c32cb9f
+  "net-snmpd.init:"	2622ff38788f7aff768e22a2ac2abfd0943a42b5
+  "net-snmpd.sysconfig:"	d3d271771da5f00c00da220d091320c7902e2eeb
+  "net-snmptrapd.init:"	8e3f07e2d73385f2e63579ad1fbc05e3c1d9b426
+  "net-snmptrapd.sysconfig:"	a1fcbfba11114b96a434bba6e9df955501651f03
+  "NOTIFICATION-TEST-MIB.txt:"	65c964916345f4c214c355cf276913f942523304
+  "snmpd.conf:"	48a2883f5646ddcb266fdd28025674510c9ecabc
+  "snmpd.logrotate:"	2aa7448339531f353a53da1628e7876658ed7430
+  "snmp.local.conf:"	6b573530195903db497e52752eaa20a104eaf807
+  "snmptrapd.conf:"	59da5a4504923e9b9fca574714877f9038961bf1
+  "snmptrapd.logrotate:"	62140c0f5738a54deb308300b48529334ef68318
+  "TRAP-TEST-MIB.txt:"	b375829402881118f5aa83236f173ee25878aee1
+  "ucd5820stat:"	b32fc0ee2f13a36f52e50a30f86c971025782d6c

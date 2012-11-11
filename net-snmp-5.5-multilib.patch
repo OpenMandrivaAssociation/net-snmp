@@ -1,0 +1,24 @@
+diff -Naur net-snmp-5.6/man/snmp_config.5.def net-snmp-5.6.oden/man/snmp_config.5.def
+--- net-snmp-5.6/man/snmp_config.5.def	2010-09-17 11:51:52.000000000 +0200
++++ net-snmp-5.6.oden/man/snmp_config.5.def	2010-10-10 16:14:27.987437751 +0200
+@@ -10,7 +10,7 @@
+ found and read from.  By default, the applications look for
+ configuration files in the following 4 directories, in order:
+ SYSCONFDIR/snmp,
+-DATADIR/snmp, LIBDIR/snmp, and $HOME/.snmp.  In each of these
++DATADIR/snmp, /usr/lib(64)/snmp, and $HOME/.snmp.  In each of these
+ directories, it looks for files with the extension of both
+ .IR conf " and " local.conf
+ (reading the second ones last).  In this manner, there are
+diff -Naur net-snmp-5.6/man/snmpd.conf.5.def net-snmp-5.6.oden/man/snmpd.conf.5.def
+--- net-snmp-5.6/man/snmpd.conf.5.def	2010-09-17 11:51:52.000000000 +0200
++++ net-snmp-5.6.oden/man/snmpd.conf.5.def	2010-10-10 16:14:27.989437742 +0200
+@@ -1387,7 +1387,7 @@
+ .RS
+ .IP "Note:"
+ If the specified PATH is not a fully qualified filename, it will
+-be interpreted relative to LIBDIR/snmp/dlmod, and \fC.so\fR
++be interpreted relative to /usr/lib(64)/snmp/dlmod, and \fC.so\fR
+ will be appended to the filename.
+ .RE
+ .PP

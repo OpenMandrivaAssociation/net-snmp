@@ -1,0 +1,13 @@
+net-snmp-5.7.2.pre1.tar.gz
+net-snmpd.init
+net-snmpd.sysconfig
+net-snmptrapd.init
+net-snmptrapd.sysconfig
+NOTIFICATION-TEST-MIB.txt
+snmpd.conf
+snmpd.logrotate
+snmp.local.conf
+snmptrapd.conf
+snmptrapd.logrotate
+TRAP-TEST-MIB.txt
+ucd5820stat

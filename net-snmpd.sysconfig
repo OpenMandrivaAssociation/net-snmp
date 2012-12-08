@@ -1,0 +1,6 @@
+# (oe) added a work around for:
+# http://qa.mandriva.com/show_bug.cgi?id=19388
+#
+# this is related to the lm_sensors mibs (#19388) "-I -lmSensors"
+
+OPTIONS="-Lsd -Lf /dev/null -p /var/run/snmpd -a -I -lmSensors"

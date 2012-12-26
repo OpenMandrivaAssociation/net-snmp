@@ -26,8 +26,6 @@ License:	BSDish
 Group:		System/Servers
 URL:		http://www.net-snmp.org/
 Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
-Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
-#Source0:	net-snmp-%{version}.pre1.tar.gz
 Source2:	net-snmpd.init
 Source3:	snmpd.conf
 Source4:	snmpd.logrotate

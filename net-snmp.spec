@@ -1,5 +1,5 @@
 # not really needed anymore, but leaving for just incase legacy issues
-%define _requires_exceptions devel(libperl
+#define _requires_exceptions devel(libperl
 %define _disable_ld_no_undefined 1
 %define Werror_cflags %{nil}
 
@@ -19,7 +19,7 @@
 %{?_with_rpm:		%global build_rpm 1}
 
 Summary:	A collection of SNMP protocol tools and libraries
-Name: 		net-snmp
+Name:		net-snmp
 Version: 	5.7.2
 Release: 	1
 License:	BSDish

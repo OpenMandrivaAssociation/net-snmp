@@ -482,8 +482,8 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{_includedir}/net-snmp/system/*.h
 %dir %{_includedir}/net-snmp/ucd-snmp
 %{_includedir}/net-snmp/ucd-snmp/*.h
-#%dir %{_includedir}/net-snmp/agent/util_funcs
-#%{_includedir}/net-snmp/agent/util_funcs/*.h
+%dir %{_includedir}/net-snmp/agent/util_funcs
+%{_includedir}/net-snmp/agent/util_funcs/*.h
 %dir /var/lib/net-snmp
 %dir /var/agentx/master
 %{_mandir}/man3/*

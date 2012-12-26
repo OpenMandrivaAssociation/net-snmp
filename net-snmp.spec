@@ -41,9 +41,9 @@ Source14:	net-snmptrapd.sysconfig
 Patch1:		net-snmp-5.4.1-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
 Patch3:		net-snmp-5.5-multilib.patch
-Patch4:		net-snmp-5.5-sensors3.patch
+#Patch4:		net-snmp-5.5-sensors3.patch
 Patch5:		net-snmp-5.6.1-add-pythoninstall-destdir.patch
-Patch6:		net-snmp-5.6.1-mysql.patch
+#Patch6:		net-snmp-5.6.1-mysql.patch
 Patch7:		net-snmp-5.7.1-linkage_fix.diff
 BuildRequires:	chrpath
 BuildRequires:	python-setuptools
@@ -212,13 +212,7 @@ Net-SNMP toolkit library.
 
 %prep
 %setup -q
-%patch1 -p1 -b .pie~
-%patch2 -p1 -b .dir-fix~
-%patch3 -p1 -b .multilib~
-%patch5 -p1 -b .py_destdir~
-#patch6 -p1 -b .mysql
-%patch7 -p0 -b .linkage
-#%%patch4 -p1 -b .sensors3
+%apply_patches
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir

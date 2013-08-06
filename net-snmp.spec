@@ -20,11 +20,11 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version: 	5.7.2
-Release: 	1
+Version:	5.7.2
+Release:	1
 License:	BSDish
 Group:		System/Servers
-URL:		http://www.net-snmp.org/
+Url:		http://www.net-snmp.org/
 Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
 Source2:	net-snmpd.init
 Source3:	snmpd.conf
@@ -228,13 +228,13 @@ bzip2 ChangeLog
 %serverbuild
 
 MIBS="host agentx smux \
-     ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \
-    ip-mib/ipv4InterfaceTable ip-mib/ipv6InterfaceTable \
-    ip-mib/ipAddressPrefixTable/ipAddressPrefixTable \
-    ip-mib/ipDefaultRouterTable/ipDefaultRouterTable \
-    ip-mib/ipv6ScopeZoneIndexTable ip-mib/ipIfStatsTable \
-    sctp-mib rmon-mib etherlike-mib \
-    ucd-snmp/lmsensorsMib"
+	ucd-snmp/diskio tcp-mib udp-mib mibII/mta_sendmail \
+	ip-mib/ipv4InterfaceTable ip-mib/ipv6InterfaceTable \
+	ip-mib/ipAddressPrefixTable/ipAddressPrefixTable \
+	ip-mib/ipDefaultRouterTable/ipDefaultRouterTable \
+	ip-mib/ipv6ScopeZoneIndexTable ip-mib/ipIfStatsTable \
+	sctp-mib rmon-mib etherlike-mib \
+	ucd-snmp/lmsensorsMib"
 
 %configure2_5x \
 %if %{build_rpm}
@@ -269,7 +269,7 @@ EOF
 
 # XXX autojunk
 sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," \
-    include/net-snmp/net-snmp-config.h
+	include/net-snmp/net-snmp-config.h
 
 make
 
@@ -282,10 +282,8 @@ make
 #make test
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std \
-    ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
-find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
+	ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
 
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
@@ -359,13 +357,13 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/snmpd
 %{_bindir}/ucd5820stat
 %{_sbindir}/snmpd
-%attr(0644,root,root) %{_mandir}/man5/snmpd.conf.5*
-%attr(0644,root,root) %{_mandir}/man5/snmp_config.5*
-%attr(0644,root,root) %{_mandir}/man5/snmp.conf.5*
-%attr(0644,root,root) %{_mandir}/man5/variables.5*
-%attr(0644,root,root) %{_mandir}/man5/snmpd.examples.5*
-%attr(0644,root,root) %{_mandir}/man5/snmpd.internal.5*
-%attr(0644,root,root) %{_mandir}/man8/snmpd.8*
+%{_mandir}/man5/snmpd.conf.5*
+%{_mandir}/man5/snmp_config.5*
+%{_mandir}/man5/snmp.conf.5*
+%{_mandir}/man5/variables.5*
+%{_mandir}/man5/snmpd.examples.5*
+%{_mandir}/man5/snmpd.internal.5*
+%{_mandir}/man8/snmpd.8*
 
 %files trapd
 %doc dist/schema-snmptrapd.sql README.sql
@@ -374,8 +372,8 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/snmptrapd
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/snmptrapd
 %{_sbindir}/snmptrapd
-%attr(0644,root,root) %{_mandir}/man5/snmptrapd.conf.5*
-%attr(0644,root,root) %{_mandir}/man8/snmptrapd.8*
+%{_mandir}/man5/snmptrapd.conf.5*
+%{_mandir}/man8/snmptrapd.8*
 
 %files utils
 %{_bindir}/agentxtrap
@@ -412,34 +410,34 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{_datadir}/snmp/snmp_perl.pl
 %{_datadir}/snmp/snmp_perl_trapd.pl
 %{_datadir}/snmp/*.conf
-%attr(0644,root,root) %{_mandir}/man1/agentxtrap.1*
-%attr(0644,root,root) %{_mandir}/man1/encode_keychange.1*
-%attr(0644,root,root) %{_mandir}/man1/fixproc.1*
-%attr(0644,root,root) %{_mandir}/man1/mib2c.1*
-%attr(0644,root,root) %{_mandir}/man1/mib2c-update.1*
-%attr(0644,root,root) %{_mandir}/man1/net-snmp-create-v3-user.1*
-%attr(0644,root,root) %{_mandir}/man1/snmp-bridge-mib.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpbulkget.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpbulkwalk.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpcmd.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpconf.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpdelta.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpdf.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpget.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpgetnext.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpinform.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpnetstat.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpset.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpstatus.1*
-%attr(0644,root,root) %{_mandir}/man1/snmptable.1*
-%attr(0644,root,root) %{_mandir}/man1/snmptest.1*
-%attr(0644,root,root) %{_mandir}/man1/snmptranslate.1*
-%attr(0644,root,root) %{_mandir}/man1/snmptrap.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpusm.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpvacm.1*
-%attr(0644,root,root) %{_mandir}/man1/snmpwalk.1*
-%attr(0644,root,root) %{_mandir}/man1/traptoemail.1*
-%attr(0644,root,root) %{_mandir}/man5/mib2c.conf.5*
+%{_mandir}/man1/agentxtrap.1*
+%{_mandir}/man1/encode_keychange.1*
+%{_mandir}/man1/fixproc.1*
+%{_mandir}/man1/mib2c.1*
+%{_mandir}/man1/mib2c-update.1*
+%{_mandir}/man1/net-snmp-create-v3-user.1*
+%{_mandir}/man1/snmp-bridge-mib.1*
+%{_mandir}/man1/snmpbulkget.1*
+%{_mandir}/man1/snmpbulkwalk.1*
+%{_mandir}/man1/snmpcmd.1*
+%{_mandir}/man1/snmpconf.1*
+%{_mandir}/man1/snmpdelta.1*
+%{_mandir}/man1/snmpdf.1*
+%{_mandir}/man1/snmpget.1*
+%{_mandir}/man1/snmpgetnext.1*
+%{_mandir}/man1/snmpinform.1*
+%{_mandir}/man1/snmpnetstat.1*
+%{_mandir}/man1/snmpset.1*
+%{_mandir}/man1/snmpstatus.1*
+%{_mandir}/man1/snmptable.1*
+%{_mandir}/man1/snmptest.1*
+%{_mandir}/man1/snmptranslate.1*
+%{_mandir}/man1/snmptrap.1*
+%{_mandir}/man1/snmpusm.1*
+%{_mandir}/man1/snmpvacm.1*
+%{_mandir}/man1/snmpwalk.1*
+%{_mandir}/man1/traptoemail.1*
+%{_mandir}/man5/mib2c.conf.5*
 
 %files mibs
 %doc mibs/README.mibs
@@ -489,7 +487,7 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %{_mandir}/man3/*
 %exclude %{_mandir}/man3/NetSNMP*
 %exclude %{_mandir}/man3/SNMP.3*
-%attr(0644,root,root) %{_mandir}/man1/net-snmp-config.1*
+%{_mandir}/man1/net-snmp-config.1*
 
 %files -n perl-NetSNMP
 %{perl_vendorarch}/auto/NetSNMP

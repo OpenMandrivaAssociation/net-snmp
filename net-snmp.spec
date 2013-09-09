@@ -26,25 +26,33 @@ License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
 Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
-Source2:	net-snmpd.init
-Source3:	snmpd.conf
-Source4:	snmpd.logrotate
-Source5:	net-snmptrapd.init
+Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
+Source2:	snmpd.conf
+Source3:	snmpd.logrotate
+Source4:	snmpd.sysconfig
+Source5:	snmpd.service
 Source6:	snmptrapd.conf
 Source7:	snmptrapd.logrotate
-Source8:	ucd5820stat
-Source9:	snmp.local.conf
-Source11:	NOTIFICATION-TEST-MIB.txt
-Source12:	TRAP-TEST-MIB.txt
-Source13:	net-snmpd.sysconfig
-Source14:	net-snmptrapd.sysconfig
-Patch1:		net-snmp-5.4.1-pie.patch
+Source8:	snmptrapd.sysconfig
+Source9:	snmptrapd.service
+Source10:	net-snmp.tmpfiles
+Source11:	ucd5820stat
+Source12:	NOTIFICATION-TEST-MIB.txt
+Source13:	TRAP-TEST-MIB.txt
+
+# fedora patches
+Patch1:		net-snmp-5.7.2-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
-Patch3:		net-snmp-5.5-multilib.patch
-#Patch4:		net-snmp-5.5-sensors3.patch
-Patch5:		net-snmp-5.6.1-add-pythoninstall-destdir.patch
-#Patch6:		net-snmp-5.6.1-mysql.patch
-Patch7:		net-snmp-5.7.1-linkage_fix.diff
+Patch3:		net-snmp-5.6-multilib.patch
+Patch5:		net-snmp-5.5-apsl-copying.patch
+Patch7:		net-snmp-5.6-test-debug.patch
+
+# other patches
+Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
+
+# From fedora
+Patch101:	net-snmp-5.7.2-systemd.patch
+
 BuildRequires:	chrpath
 BuildRequires:	python-setuptools
 BuildRequires:	lm_sensors-devel
@@ -283,23 +291,32 @@ make
 
 %install
 %makeinstall_std \
-	ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
+    ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
 
-install -d %{buildroot}%{_initrddir}
-install -d %{buildroot}%{_sysconfdir}/sysconfig
-install -d %{buildroot}%{_sysconfdir}/snmp
-install -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -d %{buildroot}/var/lib/net-snmp
 install -d %{buildroot}/var/agentx/master
 
-install -m 0755 %{SOURCE2} %{buildroot}%{_initrddir}/snmpd
-install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/snmp/snmpd.conf
-install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/snmpd
-install -m 0755 %{SOURCE5} %{buildroot}%{_initrddir}/snmptrapd
-install -m 0644 %{SOURCE6} %{buildroot}%{_sysconfdir}/snmp/snmptrapd.conf
-install -m 0644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/snmptrapd
-install -m 0755 %{SOURCE8} %{buildroot}%{_bindir}/ucd5820stat
-install -m 0644 %{SOURCE9} %{buildroot}%{_sysconfdir}/snmp/snmp.local.conf
+install -d %{buildroot}%{_sysconfdir}/snmp
+install -d %{buildroot}%{_sysconfdir}/logrotate.d
+install -d %{buildroot}%{_sysconfdir}/sysconfig
+install -d %{buildroot}%{_unitdir}
+
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/snmp/snmpd.conf
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/snmpd
+install -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/snmpd
+
+install -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/snmpd.service
+install -m 644 dist/snmpd.socket %{buildroot}%{_unitdir}/snmpd.socket
+
+install -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/snmp/snmptrapd.conf
+install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/snmptrapd
+install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/sysconfig/snmptrapd
+install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/snmptrapd.service
+install -m 644 dist/snmptrapd.socket %{buildroot}%{_unitdir}/snmptrapd.socket
+
+install -D -m 644 %{SOURCE10} %{buildroot}%{_prefix}/lib/tmpfiles.d/net-snmp.conf
+
+install -m 0755 %{SOURCE11} %{buildroot}%{_bindir}/ucd5820stat
 
 rm -f %{buildroot}%{_bindir}/snmpinform
 rm -f %{buildroot}%{_bindir}/snmpcheck
@@ -317,10 +334,8 @@ install -m 644 mibs/rfcmibs.diff %{buildroot}%{_datadir}/snmp/mibs/
 install -m 755 mibs/mibfetch %{buildroot}%{_datadir}/snmp/mibs/
 install -m 755 mibs/smistrip %{buildroot}%{_datadir}/snmp/mibs/
 install -m 644 mibs/Makefile.mib %{buildroot}%{_datadir}/snmp/mibs/
-install -m 644 %{SOURCE11} %{buildroot}%{_datadir}/snmp/mibs/NOTIFICATION-TEST-MIB.txt
-install -m 644 %{SOURCE12} %{buildroot}%{_datadir}/snmp/mibs/TRAP-TEST-MIB.txt
-install -m 644 %{SOURCE13} %{buildroot}%{_sysconfdir}/sysconfig/snmpd
-install -m 644 %{SOURCE14} %{buildroot}%{_sysconfdir}/sysconfig/snmptrapd
+install -m 644 %{SOURCE12} %{buildroot}%{_datadir}/snmp/mibs/NOTIFICATION-TEST-MIB.txt
+install -m 644 %{SOURCE13} %{buildroot}%{_datadir}/snmp/mibs/TRAP-TEST-MIB.txt
 
 # fix one bug
 perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la
@@ -350,11 +365,12 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %doc AGENT.txt EXAMPLE.conf FAQ INSTALL NEWS TODO
 %doc README README.agent* README.krb5 README.snmpv3 README.thread
 %doc local/passtest local/README.mib2c local/ipf-mod.pl
-%attr(0755,root,root) %{_initrddir}/snmpd
-%attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/snmp/snmpd.conf
-%attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/snmp/snmp.local.conf
-%attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/sysconfig/snmpd
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/snmpd
+%config(noreplace) %{_sysconfdir}/snmp/snmpd.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/snmpd
+%config(noreplace) %{_sysconfdir}/logrotate.d/snmpd
+%{_prefix}/lib/tmpfiles.d/net-snmp.conf
+%{_unitdir}/snmpd.service
+%{_unitdir}/snmpd.socket
 %{_bindir}/ucd5820stat
 %{_sbindir}/snmpd
 %{_mandir}/man5/snmpd.conf.5*
@@ -367,10 +383,11 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 
 %files trapd
 %doc dist/schema-snmptrapd.sql README.sql
-%attr(0755,root,root) %{_initrddir}/snmptrapd
-%attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/snmp/snmptrapd.conf
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/snmptrapd
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/snmptrapd
+%config(noreplace) %{_sysconfdir}/snmp/snmptrapd.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/snmptrapd
+%config(noreplace) %{_sysconfdir}/logrotate.d/snmptrapd
+%{_unitdir}/snmptrapd.service
+%{_unitdir}/snmptrapd.socket
 %{_sbindir}/snmptrapd
 %{_mandir}/man5/snmptrapd.conf.5*
 %{_mandir}/man8/snmptrapd.8*
@@ -512,4 +529,3 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %files tkmib
 %{_bindir}/tkmib
 %{_mandir}/man1/tkmib.1*
-

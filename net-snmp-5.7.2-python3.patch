@@ -1,0 +1,76 @@
+--- net-snmp-5.7.2/python/netsnmp/client_intf.c.omv~	2014-07-19 23:57:32.390350279 +0200
++++ net-snmp-5.7.2/python/netsnmp/client_intf.c	2014-07-20 00:03:26.527922950 +0200
+@@ -978,7 +978,7 @@ py_netsnmp_attr_string(PyObject *obj, ch
+     PyObject *attr = PyObject_GetAttrString(obj, attr_name);
+     if (attr) {
+       int retval;
+-      retval = PyString_AsStringAndSize(attr, val, len);
++      retval = PyBytes_AsStringAndSize(attr, val, len);
+       Py_DECREF(attr);
+       return retval;
+     }
+@@ -995,7 +995,7 @@ py_netsnmp_attr_long(PyObject *obj, char
+   if (obj && attr_name  && PyObject_HasAttrString(obj, attr_name)) {
+     PyObject *attr = PyObject_GetAttrString(obj, attr_name);
+     if (attr) {
+-      val = PyInt_AsLong(attr);
++      val = PyLong_AsLong(attr);
+       Py_DECREF(attr);
+     }
+   }
+@@ -1078,11 +1078,11 @@ __py_netsnmp_update_session_errors(PyObj
+ 
+     py_netsnmp_attr_set_string(session, "ErrorStr", err_str, STRLEN(err_str));
+ 
+-    tmp_for_conversion = PyInt_FromLong(err_num);
++    tmp_for_conversion = PyLong_FromLong(err_num);
+     PyObject_SetAttrString(session, "ErrorNum", tmp_for_conversion);
+     Py_DECREF(tmp_for_conversion);
+ 
+-    tmp_for_conversion = PyInt_FromLong(err_ind);
++    tmp_for_conversion = PyLong_FromLong(err_ind);
+     PyObject_SetAttrString(session, "ErrorInd", tmp_for_conversion);
+     Py_DECREF(tmp_for_conversion);
+ }
+@@ -2589,13 +2589,20 @@ static PyMethodDef ClientMethods[] = {
+   {NULL, NULL, 0, NULL}        /* Sentinel */
+ };
+ 
++static struct PyModuleDef moduledef = {
++  PyModuleDef_HEAD_INIT,
++  "client_intf",
++  NULL,
++  -1,
++  ClientMethods,
++  NULL,
++  NULL,
++  NULL,
++  NULL
++};
++
+ PyMODINIT_FUNC
+ initclient_intf(void)
+ {
+-    (void) Py_InitModule("client_intf", ClientMethods);
++    return PyModule_Create(&moduledef);
+ }
+-
+-
+-
+-
+-
+--- net-snmp-5.7.2/python/setup.py.omv~	2014-07-19 23:56:10.564373244 +0200
++++ net-snmp-5.7.2/python/setup.py	2014-07-19 23:57:09.006642615 +0200
+@@ -9,9 +9,9 @@ intree=0
+ 
+ args = sys.argv[:]
+ for arg in args:
+-    if string.find(arg,'--basedir=') == 0:
+-        basedir = string.split(arg,'=')[1]
+-	sys.argv.remove(arg)
++    if arg.find('--basedir=') == 0:
++        basedir = arg.split('=')[1]
++        sys.argv.remove(arg)
+         intree=1
+ 
+ if intree:

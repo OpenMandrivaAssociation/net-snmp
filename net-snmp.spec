@@ -21,7 +21,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
 Version:	5.7.2
-Release:	12
+Release:	13
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
@@ -46,20 +46,19 @@ Patch2:		net-snmp-5.5-dir-fix.patch
 Patch3:		net-snmp-5.6-multilib.patch
 Patch5:		net-snmp-5.5-apsl-copying.patch
 Patch7:		net-snmp-5.6-test-debug.patch
+Patch8:		net-snmp-5.7.2-systemd.patch
 
 # other patches
 Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
-
-# From fedora
-Patch101:	net-snmp-5.7.2-systemd.patch
+Patch101:	net-snmp-5.7.2-python3.patch
 
 BuildRequires:	chrpath
-BuildRequires:	python-setuptools
 BuildRequires:	lm_sensors-devel
 BuildRequires:	mariadb-devel
 BuildRequires:	perl-devel
 BuildRequires:	tcp_wrappers-devel
 BuildRequires:	pkgconfig(openssl)
+BuildRequires:	pkgconfig(python3)
 %if %{build_rpm}
 BuildRequires:	pkgconfig(rpm)
 %endif
@@ -519,7 +518,7 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 %dir %{python_sitearch}/netsnmp
 %{python_sitearch}/netsnmp/__init__.py
 %{python_sitearch}/netsnmp/client.py
-%{python_sitearch}/netsnmp/client_intf.so
+%{python_sitearch}/netsnmp/client_intf*.so
 %dir %{python_sitearch}/netsnmp/tests
 %{python_sitearch}/netsnmp/tests/__init__.py
 %{python_sitearch}/netsnmp/tests/test.py

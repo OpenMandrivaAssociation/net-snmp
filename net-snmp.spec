@@ -290,7 +290,8 @@ make
 #make test
 
 %install
-%makeinstall_std \
+#seems to be errors with parallel install (libs not getting installed)
+make install DESTDIR=%{buildroot} \
     ucdincludedir=%{_includedir}/net-snmp/ucd-snmp
 
 install -d %{buildroot}/var/lib/net-snmp
@@ -342,6 +343,9 @@ perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la
 
 # nuke rpath
 find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
+
+rm -fr %{buildroot}%{python_sitearch}/netsnmp/__pycache__
+rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 
 %multiarch_binaries %{buildroot}%{_bindir}/net-snmp-config
 

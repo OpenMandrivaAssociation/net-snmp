@@ -1,6 +1,8 @@
 # not really needed anymore, but leaving for just incase legacy issues
 #define _requires_exceptions devel(libperl
 %define _disable_ld_no_undefined 1
+%define _disable_rebuild_configure 1
+
 %define Werror_cflags %{nil}
 
 %define major	30

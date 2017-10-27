@@ -22,8 +22,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version:	5.7.2
-Release:	17
+Version:	5.7.3
+Release:	1
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
@@ -45,7 +45,6 @@ Source13:	TRAP-TEST-MIB.txt
 # fedora patches
 Patch1:		net-snmp-5.7.2-pie.patch
 Patch2:		net-snmp-5.5-dir-fix.patch
-Patch3:		net-snmp-5.6-multilib.patch
 Patch5:		net-snmp-5.5-apsl-copying.patch
 Patch7:		net-snmp-5.6-test-debug.patch
 Patch8:		net-snmp-5.7.2-systemd.patch
@@ -53,6 +52,7 @@ Patch8:		net-snmp-5.7.2-systemd.patch
 # other patches
 Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
 Patch101:	net-snmp-5.7.2-python3.patch
+Patch102:	net-snmp-5.7.3-openssl-1.1.patch
 
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel
@@ -349,12 +349,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 rm -fr %{buildroot}%{python_sitearch}/netsnmp/__pycache__
 rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 
-%multiarch_binaries %{buildroot}%{_bindir}/net-snmp-config
-
-%multiarch_includes %{buildroot}%{_includedir}/net-snmp/net-snmp-config.h
-
-%multiarch_binaries %{buildroot}%{_bindir}/net-snmp-create-v3-user
-
 %post
 %_post_service snmpd
 
@@ -407,7 +401,6 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_bindir}/mib2c-update
 %{_bindir}/net-snmp-cert
 %{_bindir}/net-snmp-create-v3-user
-%{multiarch_bindir}/net-snmp-create-v3-user
 %{_bindir}/snmp-bridge-mib
 %{_bindir}/snmpbulkget
 %{_bindir}/snmpbulkwalk
@@ -486,8 +479,6 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 
 %files -n %{devname}
 %doc ChangeLog.bz2
-%{multiarch_bindir}/net-snmp-config
-%{multiarch_includedir}/net-snmp/net-snmp-config.h
 %{_bindir}/net-snmp-config
 %{_libdir}/*.so
 %dir %{_includedir}/net-snmp

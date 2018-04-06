@@ -53,7 +53,9 @@ Patch8:		net-snmp-5.7.2-systemd.patch
 Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
 Patch101:	net-snmp-5.7.2-python3.patch
 Patch102:	net-snmp-5.7.3-openssl-1.1.patch
+
 Patch30:	net-snmp-5.7.3-perl524-2.patch	
+Patch31:	net-snmp-5.7.2-no-systemd.patch	
 
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel

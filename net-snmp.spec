@@ -23,7 +23,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
 Version:	5.7.3
-Release:	1
+Release:	2
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
@@ -53,6 +53,7 @@ Patch8:		net-snmp-5.7.2-systemd.patch
 Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
 Patch101:	net-snmp-5.7.2-python3.patch
 Patch102:	net-snmp-5.7.3-openssl-1.1.patch
+Patch30:	net-snmp-5.7.3-perl524-2.patch	
 
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel

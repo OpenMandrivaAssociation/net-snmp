@@ -56,6 +56,7 @@ Patch102:	net-snmp-5.7.3-openssl-1.1.patch
 
 Patch30:	net-snmp-5.7.3-perl524-2.patch	
 Patch31:	net-snmp-5.7.2-no-systemd.patch	
+Patch32:	net-snmp-5.7.3-mariadb102.patch	
 
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel

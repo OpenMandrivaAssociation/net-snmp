@@ -2,6 +2,7 @@
 #define _requires_exceptions devel(libperl
 %define _disable_ld_no_undefined 1
 %define _disable_rebuild_configure 1
+%define _python_bytecompile_build 0
 
 %define Werror_cflags %{nil}
 

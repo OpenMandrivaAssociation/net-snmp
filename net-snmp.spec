@@ -59,6 +59,7 @@ Patch30:	net-snmp-5.7.3-perl524-2.patch
 Patch31:	net-snmp-5.7.2-no-systemd.patch	
 Patch32:	net-snmp-5.7.3-mariadb102.patch	
 
+BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel
 BuildRequires:	mariadb-devel

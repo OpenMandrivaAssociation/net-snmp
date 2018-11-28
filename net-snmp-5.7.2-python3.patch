@@ -1,6 +1,7 @@
---- net-snmp-5.7.2/python/netsnmp/client_intf.c.omv~	2014-07-19 23:57:32.390350279 +0200
-+++ net-snmp-5.7.2/python/netsnmp/client_intf.c	2014-07-20 00:03:26.527922950 +0200
-@@ -978,7 +978,7 @@ py_netsnmp_attr_string(PyObject *obj, ch
+diff -up net-snmp-5.8/python/netsnmp/client_intf.c.0101~ net-snmp-5.8/python/netsnmp/client_intf.c
+--- net-snmp-5.8/python/netsnmp/client_intf.c.0101~	2018-07-16 16:33:40.000000000 +0200
++++ net-snmp-5.8/python/netsnmp/client_intf.c	2018-11-28 18:58:38.340882265 +0100
+@@ -853,7 +853,7 @@ py_netsnmp_attr_string(PyObject *obj, ch
      PyObject *attr = PyObject_GetAttrString(obj, attr_name);
      if (attr) {
        int retval;
@@ -9,7 +10,7 @@
        Py_DECREF(attr);
        return retval;
      }
-@@ -995,7 +995,7 @@ py_netsnmp_attr_long(PyObject *obj, char
+@@ -870,7 +870,7 @@ py_netsnmp_attr_long(PyObject *obj, char
    if (obj && attr_name  && PyObject_HasAttrString(obj, attr_name)) {
      PyObject *attr = PyObject_GetAttrString(obj, attr_name);
      if (attr) {
@@ -18,21 +19,23 @@
        Py_DECREF(attr);
      }
    }
-@@ -1078,11 +1078,11 @@ __py_netsnmp_update_session_errors(PyObj
+@@ -955,13 +955,13 @@ __py_netsnmp_update_session_errors(PyObj
  
      py_netsnmp_attr_set_string(session, "ErrorStr", err_str, STRLEN(err_str));
  
 -    tmp_for_conversion = PyInt_FromLong(err_num);
 +    tmp_for_conversion = PyLong_FromLong(err_num);
+     if (!tmp_for_conversion)
+         return; /* nothing better to do? */
      PyObject_SetAttrString(session, "ErrorNum", tmp_for_conversion);
      Py_DECREF(tmp_for_conversion);
  
 -    tmp_for_conversion = PyInt_FromLong(err_ind);
 +    tmp_for_conversion = PyLong_FromLong(err_ind);
+     if (!tmp_for_conversion)
+         return; /* nothing better to do? */
      PyObject_SetAttrString(session, "ErrorInd", tmp_for_conversion);
-     Py_DECREF(tmp_for_conversion);
- }
-@@ -2589,13 +2589,20 @@ static PyMethodDef ClientMethods[] = {
+@@ -2490,13 +2490,20 @@ static PyMethodDef ClientMethods[] = {
    {NULL, NULL, 0, NULL}        /* Sentinel */
  };
  
@@ -59,8 +62,9 @@
 -
 -
 -
---- net-snmp-5.7.2/python/setup.py.omv~	2014-07-19 23:56:10.564373244 +0200
-+++ net-snmp-5.7.2/python/setup.py	2014-07-19 23:57:09.006642615 +0200
+diff -up net-snmp-5.8/python/setup.py.0101~ net-snmp-5.8/python/setup.py
+--- net-snmp-5.8/python/setup.py.0101~	2018-07-16 16:33:40.000000000 +0200
++++ net-snmp-5.8/python/setup.py	2018-11-28 18:57:40.707000772 +0100
 @@ -9,9 +9,9 @@ intree=0
  
  args = sys.argv[:]

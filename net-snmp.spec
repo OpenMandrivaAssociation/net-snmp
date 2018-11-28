@@ -6,7 +6,7 @@
 
 %define Werror_cflags %{nil}
 
-%define major	30
+%define major	35
 %define libname %mklibname netsnmp %{major}
 %define libagent %mklibname netsnmpagent %{major}
 %define libhelpers %mklibname netsnmphelpers %{major}
@@ -23,8 +23,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version:	5.7.3
-Release:	3
+Version:	5.8
+Release:	1
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
@@ -45,19 +45,10 @@ Source13:	TRAP-TEST-MIB.txt
 
 # fedora patches
 Patch1:		net-snmp-5.7.2-pie.patch
-Patch2:		net-snmp-5.5-dir-fix.patch
-Patch5:		net-snmp-5.5-apsl-copying.patch
 Patch7:		net-snmp-5.6-test-debug.patch
-Patch8:		net-snmp-5.7.2-systemd.patch
 
 # other patches
-Patch100:	net-snmp-5.6.1-add-pythoninstall-destdir.patch
 Patch101:	net-snmp-5.7.2-python3.patch
-Patch102:	net-snmp-5.7.3-openssl-1.1.patch
-
-Patch30:	net-snmp-5.7.3-perl524-2.patch	
-Patch31:	net-snmp-5.7.2-no-systemd.patch	
-Patch32:	net-snmp-5.7.3-mariadb102.patch	
 
 BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
@@ -283,10 +274,6 @@ MIBS="host agentx smux \
 
 EOF
 
-# XXX autojunk
-sed -i -e "s,^#define HAVE_GETMNTENT,#define HAVE_GETMNTENT 1," \
-	include/net-snmp/net-snmp-config.h
-
 make
 
 # more verbose tests
@@ -400,6 +387,7 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 
 %files utils
 %{_bindir}/agentxtrap
+%{_bindir}/checkbandwidth
 %{_bindir}/encode_keychange
 %{_bindir}/fixproc
 %{_bindir}/ipf-mod.pl
@@ -417,6 +405,9 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_bindir}/snmpgetnext
 %{_bindir}/snmpinform
 %{_bindir}/snmpnetstat
+%{_bindir}/snmpping
+%{_bindir}/snmpps
+%{_bindir}/snmptop
 %{_bindir}/snmpset
 %{_bindir}/snmpstatus
 %{_bindir}/snmptable
@@ -460,6 +451,9 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_mandir}/man1/snmpwalk.1*
 %{_mandir}/man1/traptoemail.1*
 %{_mandir}/man5/mib2c.conf.5*
+%{_mandir}/man1/snmpps.1.xz
+%{_mandir}/man1/snmptop.1.xz
+
 
 %files mibs
 %doc mibs/README.mibs
@@ -514,7 +508,7 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{perl_vendorarch}/auto/SNMP
 %{perl_vendorarch}/SNMP.pm
 %{perl_vendorarch}/NetSNMP
-%{perl_vendorarch}/Bundle/Makefile.subs.pl
+%{perl_vendorarch}/Bundle/MakefileSubs.pm
 %{_mandir}/man3/NetSNMP*
 %{_mandir}/man3/SNMP.3*
 

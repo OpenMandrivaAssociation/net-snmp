@@ -24,7 +24,7 @@
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
 Version:	5.8
-Release:	3
+Release:	4
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/

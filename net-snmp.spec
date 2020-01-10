@@ -219,7 +219,7 @@ Net-SNMP toolkit library.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir

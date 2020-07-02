@@ -451,8 +451,8 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_mandir}/man1/snmpwalk.1*
 %{_mandir}/man1/traptoemail.1*
 %{_mandir}/man5/mib2c.conf.5*
-%{_mandir}/man1/snmpps.1.xz
-%{_mandir}/man1/snmptop.1.xz
+%{_mandir}/man1/snmpps.1.*
+%{_mandir}/man1/snmptop.1.*
 
 
 %files mibs

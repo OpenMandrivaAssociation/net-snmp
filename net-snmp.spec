@@ -62,6 +62,8 @@ BuildRequires:	tcp_wrappers-devel
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python-setuptools
+BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(libpcap)
 %if %{build_rpm}
 BuildRequires:	pkgconfig(rpm)
 %endif

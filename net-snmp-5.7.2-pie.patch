@@ -1,19 +1,19 @@
-diff -up net-snmp-5.7.2/agent/Makefile.in.pie net-snmp-5.7.2/agent/Makefile.in
---- net-snmp-5.7.2/agent/Makefile.in.pie	2012-10-10 00:28:58.000000000 +0200
-+++ net-snmp-5.7.2/agent/Makefile.in	2012-10-18 09:45:13.298613099 +0200
-@@ -294,7 +294,7 @@ getmibstat.o: mibgroup/kernel_sunos5.c
+diff -up net-snmp-5.9.1/agent/Makefile.in.1~ net-snmp-5.9.1/agent/Makefile.in
+--- net-snmp-5.9.1/agent/Makefile.in.1~	2022-07-09 22:50:00.430372563 +0200
++++ net-snmp-5.9.1/agent/Makefile.in	2022-07-09 22:50:59.750787706 +0200
+@@ -297,7 +297,7 @@ getmibstat.o: mibgroup/kernel_sunos5.c
  	$(CC) $(CFLAGS) -o $@ -D_GETMIBSTAT_TEST -DDODEBUG -c $? 
  
  snmpd$(EXEEXT):	${LAGENTOBJS} $(USELIBS) $(AGENTLIB) $(HELPERLIB) $(MIBLIB) $(LIBTARG) 
 -	$(LINK) $(CFLAGS) -o $@ ${LAGENTOBJS} ${LDFLAGS} ${OUR_AGENT_LIBS}
-+	$(LINK) $(CFLAGS) -o $@ -pie ${LAGENTOBJS} ${LDFLAGS} ${OUR_AGENT_LIBS}
++	$(LINK) $(CFLAGS) -pie -o $@ ${LAGENTOBJS} ${LDFLAGS} ${OUR_AGENT_LIBS}
  
  libnetsnmpagent.$(LIB_EXTENSION)$(LIB_VERSION):    ${LLIBAGENTOBJS} $(USELIBS)
- 	$(LIB_LD_CMD) $(AGENTLIB) ${LLIBAGENTOBJS} $(USELIBS) ${LAGENTLIBS} @LD_NO_UNDEFINED@ $(LDFLAGS) $(PERLLDOPTS_FOR_LIBS) $(LIB_LD_LIBS) @AGENTLIBS@
-diff -up net-snmp-5.7.2/apps/Makefile.in.pie net-snmp-5.7.2/apps/Makefile.in
---- net-snmp-5.7.2/apps/Makefile.in.pie	2012-10-10 00:28:58.000000000 +0200
-+++ net-snmp-5.7.2/apps/Makefile.in	2012-10-18 09:44:27.827774580 +0200
-@@ -170,7 +170,7 @@ snmptest$(EXEEXT):    snmptest.$(OSUFFIX
+ 	$(LIB_LD_CMD) $(AGENTLIB) ${LLIBAGENTOBJS} $(USELIBS) ${LAGENTLIBS} @LD_NO_UNDEFINED@ $(LDFLAGS) $(PERLLDOPTS_FOR_LIBS) @AGENTLIBS@
+diff -up net-snmp-5.9.1/apps/Makefile.in.1~ net-snmp-5.9.1/apps/Makefile.in
+--- net-snmp-5.9.1/apps/Makefile.in.1~	2021-05-26 00:19:35.000000000 +0200
++++ net-snmp-5.9.1/apps/Makefile.in	2022-07-09 22:50:00.431372537 +0200
+@@ -190,7 +190,7 @@ snmptest$(EXEEXT):    snmptest.$(OSUFFIX
  	$(LINK) ${CFLAGS} -o $@ snmptest.$(OSUFFIX) ${LDFLAGS} ${LIBS}
  
  snmptrapd$(EXEEXT):    $(TRAPD_OBJECTS) $(USETRAPLIBS) $(INSTALLLIBS)

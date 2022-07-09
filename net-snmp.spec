@@ -6,13 +6,19 @@
 
 %define Werror_cflags %{nil}
 
-%define major	35
-%define libname %mklibname netsnmp %{major}
-%define libagent %mklibname netsnmpagent %{major}
-%define libhelpers %mklibname netsnmphelpers %{major}
-%define libmibs %mklibname netsnmpmibs %{major}
-%define libtrapd %mklibname netsnmptrapd %{major}
-%define libsnmp %mklibname snmp %{major}
+%define major	40
+%define oldlibname %mklibname netsnmp 35
+%define oldlibagent %mklibname netsnmpagent 35
+%define oldlibhelpers %mklibname netsnmphelpers 35
+%define oldlibmibs %mklibname netsnmpmibs 35
+%define oldlibtrapd %mklibname netsnmptrapd 35
+%define oldlibsnmp %mklibname snmp 35
+%define libname %mklibname netsnmp
+%define libagent %mklibname netsnmpagent
+%define libhelpers %mklibname netsnmphelpers
+%define libmibs %mklibname netsnmpmibs
+%define libtrapd %mklibname netsnmptrapd
+%define libsnmp %mklibname snmp
 %define devname %mklibname -d net-snmp
 
 # (oe) never enable rpm support as it eats file descriptors like crazy 
@@ -23,8 +29,8 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version:	5.8
-Release:	5
+Version:	5.9.1
+Release:	1
 License:	BSDish
 Group:		System/Servers
 Url:		http://www.net-snmp.org/
@@ -46,9 +52,6 @@ Source13:	TRAP-TEST-MIB.txt
 # fedora patches
 Patch1:		net-snmp-5.7.2-pie.patch
 Patch7:		net-snmp-5.6-test-debug.patch
-
-# other patches
-Patch101:	net-snmp-5.7.2-python3.patch
 
 BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
@@ -81,6 +84,7 @@ contains NET-SNMP utilities.
 %package -n	%{libname}
 Summary:	Library for Network management (SNMP), from the NET-SNMP project
 Group:		System/Libraries
+Obsoletes:	%{oldlibname} < %{EVRD}
 
 %description -n	%{libname}
 This package contains the %{name} library for use with NET-SNMP
@@ -89,6 +93,7 @@ project's network management tools.
 %package -n	%{libagent}
 Summary:	Library for Network management %{name}-agent
 Group:		System/Libraries
+Obsoletes:	%{oldlibagent} < %{EVRD}
 
 %description -n	%{libagent}
 This package contains the %{name}-agent library for use with NET-SNMP
@@ -97,6 +102,7 @@ project's network management tools.
 %package -n	%{libhelpers}
 Summary:	Library for Network management %{name}-helpers
 Group:		System/Libraries
+Obsoletes:	%{oldlibhelpers} < %{EVRD}
 
 %description -n	%{libhelpers}
 This package contains the %{name}-helpers library for use with NET-SNMP
@@ -105,6 +111,7 @@ project's network management tools.
 %package -n	%{libmibs}
 Summary:	Library for Network management %{name}-mibs
 Group:		System/Libraries
+Obsoletes:	%{oldlibmibs} < %{EVRD}
 
 %description -n	%{libmibs}
 This package contains the %{name}-mibs library for use with NET-SNMP
@@ -113,6 +120,7 @@ project's network management tools.
 %package -n	%{libtrapd}
 Summary:	Library for Network management %{name}-trapd
 Group:		System/Libraries
+Obsoletes:	%{oldlibtrapd} < %{EVRD}
 
 %description -n	%{libtrapd}
 This package contains the %{name}-trapd library for use with NET-SNMP
@@ -121,6 +129,7 @@ project's network management tools.
 %package -n	%{libsnmp}
 Summary:	Library for Network management snmp
 Group:		System/Libraries
+Obsoletes:	%{oldlibsnmp} < %{EVRD}
 
 %description -n	%{libsnmp}
 This package contains the snmp library for use with NET-SNMP
@@ -405,6 +414,7 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_bindir}/snmpgetnext
 %{_bindir}/snmpinform
 %{_bindir}/snmpnetstat
+%{_bindir}/snmppcap
 %{_bindir}/snmpping
 %{_bindir}/snmpps
 %{_bindir}/snmptop
@@ -502,6 +512,7 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %exclude %{_mandir}/man3/NetSNMP*
 %exclude %{_mandir}/man3/SNMP.3*
 %{_mandir}/man1/net-snmp-config.1*
+%{_libdir}/pkgconfig/*.pc
 
 %files -n perl-NetSNMP
 %{perl_vendorarch}/auto/NetSNMP

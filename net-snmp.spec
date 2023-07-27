@@ -53,6 +53,9 @@ Source13:	TRAP-TEST-MIB.txt
 Patch1:		net-snmp-5.7.2-pie.patch
 Patch7:		net-snmp-5.6-test-debug.patch
 
+# OM only
+Patch50:	net-snmp-5.9.2-warnings.patch
+
 BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel
@@ -229,8 +232,7 @@ SNMPv2c, SNMPv1) client API. The 'netsnmp' module internals rely on the
 Net-SNMP toolkit library.
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 
 # run tests in dir that is cleaned
 install -d -m777 test_tmp_dir

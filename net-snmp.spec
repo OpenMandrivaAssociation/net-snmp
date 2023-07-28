@@ -6,7 +6,7 @@
 
 %define Werror_cflags %{nil}
 
-%define major	40
+%define major	39
 %define oldlibname %mklibname netsnmp 35
 %define oldlibagent %mklibname netsnmpagent 35
 %define oldlibhelpers %mklibname netsnmphelpers 35

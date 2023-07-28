@@ -6,7 +6,7 @@
 
 %define Werror_cflags %{nil}
 
-%define major	39
+%define major	40
 %define oldlibname %mklibname netsnmp 35
 %define oldlibagent %mklibname netsnmpagent 35
 %define oldlibhelpers %mklibname netsnmphelpers 35
@@ -29,7 +29,7 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version:	5.9.2
+Version:	5.9.3
 Release:	1
 License:	BSDish
 Group:		System/Servers

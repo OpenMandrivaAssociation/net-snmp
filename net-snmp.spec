@@ -29,7 +29,7 @@
 
 Summary:	A collection of SNMP protocol tools and libraries
 Name:		net-snmp
-Version:	5.9.3
+Version:	5.9.4
 Release:	1
 License:	BSDish
 Group:		System/Servers

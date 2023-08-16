@@ -1,10 +1,10 @@
-diff -up net-snmp-5.9.2/agent/mibgroup/if-mib/data_access/interface_linux.c.omv~ net-snmp-5.9.2/agent/mibgroup/if-mib/data_access/interface_linux.c
---- net-snmp-5.9.2/agent/mibgroup/if-mib/data_access/interface_linux.c.omv~	2023-07-28 01:16:11.539493973 +0200
-+++ net-snmp-5.9.2/agent/mibgroup/if-mib/data_access/interface_linux.c	2023-07-28 01:16:26.652811849 +0200
-@@ -32,7 +32,7 @@ static struct pci_access *pci_access;
+diff -up net-snmp-5.9.4/agent/mibgroup/if-mib/data_access/interface_linux.c.3~ net-snmp-5.9.4/agent/mibgroup/if-mib/data_access/interface_linux.c
+--- net-snmp-5.9.4/agent/mibgroup/if-mib/data_access/interface_linux.c.3~	2023-08-16 13:53:00.832615468 +0200
++++ net-snmp-5.9.4/agent/mibgroup/if-mib/data_access/interface_linux.c	2023-08-16 13:56:23.395556577 +0200
+@@ -35,7 +35,7 @@ static struct pci_access *pci_access;
  static int do_longjmp =0;
  static jmp_buf err_buf;
- static void
+ PCI_NONRET static void
 -netsnmp_pci_error(char *msg, ...)
 +netsnmp_pci_error(char *msg, ...) __attribute__((noreturn))
  {

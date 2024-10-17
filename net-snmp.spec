@@ -33,7 +33,7 @@ Version:	5.9.4
 Release:	1
 License:	BSDish
 Group:		System/Servers
-Url:		http://www.net-snmp.org/
+Url:		https://www.net-snmp.org/
 Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
 Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
 Source2:	snmpd.conf

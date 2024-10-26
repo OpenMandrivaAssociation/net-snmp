@@ -70,7 +70,6 @@ BuildRequires:	pkgconfig(libpcap)
 %if %{build_rpm}
 BuildRequires:	pkgconfig(rpm)
 %endif
-Requires(pre,postun): rpm-helper
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 Requires:	tcp_wrappers
@@ -256,7 +255,7 @@ MIBS="host agentx smux \
 	sctp-mib rmon-mib etherlike-mib \
 	ucd-snmp/lmsensorsMib"
 
-%configure2_5x \
+%configure \
 %if %{build_rpm}
 	--with-rpm \
 %else
@@ -354,18 +353,6 @@ find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
 
 rm -fr %{buildroot}%{python_sitearch}/netsnmp/__pycache__
 rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
-
-%post
-%_post_service snmpd
-
-%preun
-%_preun_service snmpd
-
-%post trapd
-%_post_service snmptrapd
-
-%preun trapd
-%_preun_service snmptrapd
 
 %files
 %doc AGENT.txt EXAMPLE.conf FAQ INSTALL NEWS TODO

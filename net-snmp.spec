@@ -56,6 +56,11 @@ Patch7:		net-snmp-5.6-test-debug.patch
 # OM only
 Patch50:	net-snmp-5.9.2-warnings.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel

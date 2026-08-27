@@ -6,13 +6,14 @@
 
 %define Werror_cflags %{nil}
 
-%define major	40
-%define oldlibname %mklibname netsnmp 35
-%define oldlibagent %mklibname netsnmpagent 35
-%define oldlibhelpers %mklibname netsnmphelpers 35
-%define oldlibmibs %mklibname netsnmpmibs 35
-%define oldlibtrapd %mklibname netsnmptrapd 35
-%define oldlibsnmp %mklibname snmp 35
+# LIBCURRENT in Makefile.top; 5.9.5 bumped 40 -> 45 (SNMPv3 multithread)
+%define major	45
+%define oldlibname %mklibname netsnmp 40
+%define oldlibagent %mklibname netsnmpagent 40
+%define oldlibhelpers %mklibname netsnmphelpers 40
+%define oldlibmibs %mklibname netsnmpmibs 40
+%define oldlibtrapd %mklibname netsnmptrapd 40
+%define oldlibsnmp %mklibname snmp 40
 %define libname %mklibname netsnmp
 %define libagent %mklibname netsnmpagent
 %define libhelpers %mklibname netsnmphelpers
@@ -34,7 +35,7 @@ Release:	1
 License:	BSDish
 Group:		System/Servers
 Url:		https://www.net-snmp.org/
-Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/project/net-snmp/net-snmp/%{version}/net-snmp-%{version}.tar.gz
 Source2:	snmpd.conf
 Source3:	snmpd.logrotate
 Source4:	snmpd.sysconfig
@@ -54,21 +55,23 @@ Patch7:		net-snmp-5.6-test-debug.patch
 
 # OM only
 Patch50:	net-snmp-5.9.2-warnings.patch
+# Ubuntu LP#2154921 / Debian #1138373 / upstream PR#1101
+Patch51:	net-snmp-5.9.5.2-openssl4.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel
-BuildRequires:	mariadb-devel
 BuildRequires:	perl-devel
 BuildRequires:	tcp_wrappers-devel
 BuildRequires:	pkgconfig(openssl)
-BuildRequires:	pkgconfig(python3)
-BuildRequires:	python-setuptools
+BuildRequires:	pkgconfig(libmariadb)
+BuildRequires:	pkgconfig(libnl-3.0)
+BuildRequires:	pkgconfig(python-%{pyver})
+BuildRequires:	python%{pyver}dist(setuptools)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(libpcap)
 %if %{build_rpm}
@@ -76,7 +79,6 @@ BuildRequires:	pkgconfig(rpm)
 %endif
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
-Requires:	tcp_wrappers
 
 %description
 SNMP (Simple Network Management Protocol) is a protocol used for network
@@ -146,15 +148,19 @@ project's network management tools.
 %package -n	%{devname}
 Summary:	The development environment for the NET-SNMP project
 Group:		Development/C
-Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{name}-devel = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Requires:	%{libagent} = %{EVRD}
 Requires:	%{libhelpers} = %{EVRD}
 Requires:	%{libmibs} = %{EVRD}
 Requires:	%{libtrapd} = %{EVRD}
 Requires:	%{libsnmp} = %{EVRD}
-# net-snmp-config --libs emits -lsensors (ucd-snmp/lmsensorsMib)
+# net-snmp-config --libs/--agent-libs emit these
 Requires:	lm_sensors-devel
+Requires:	pkgconfig(libnl-3.0)
+Requires:	pkgconfig(openssl)
+Requires:	tcp_wrappers-devel
+Requires:	perl-devel
 
 %description -n	%{devname}
 The %{devname} package contains the development libraries and header
@@ -166,7 +172,6 @@ for use with the NET-SNMP project's network management tools.
 %package	utils
 Summary:	Network management utilities using SNMP, from the NET-SNMP project
 Group:		Networking/Other
-Requires:	openssl
 Requires:	net-snmp-mibs
 
 %description	utils
@@ -196,12 +201,9 @@ network management project.
 %package	trapd
 Summary:	The trap collecting daemon for %{name}
 Group:		System/Servers
-Requires(pre,postun): rpm-helper
-Requires:	%{name} = %{version}
-Requires:	openssl
+Requires:	%{name} = %{EVRD}
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
-Requires:	tcp_wrappers
 
 %description	trapd
 The net-snmp-trapd package contains the trap collecting daemon for use with the
@@ -213,7 +215,7 @@ the SNMP protocol.
 %package -n	perl-NetSNMP
 Summary:	Perl utilities using SNMP, from the NET-SNMP project
 Group: 		Development/Perl
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{EVRD}
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 
@@ -227,7 +229,7 @@ written in perl.
 %package -n	python-netsnmp
 Summary:	Python utilities using SNMP, from the NET-SNMP project
 Group: 		Development/Python
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{EVRD}
 Requires:	net-snmp-mibs
 Requires:	net-snmp-utils
 
@@ -250,6 +252,7 @@ perl -pi -e "s|'\\\$install_libdir'|'%{_libdir}'|" ltmain.sh
 bzip2 ChangeLog
 
 %build
+%set_build_flags
 %serverbuild
 
 MIBS="host agentx smux \
@@ -351,8 +354,8 @@ install -m 644 mibs/Makefile.mib %{buildroot}%{_datadir}/snmp/mibs/
 install -m 644 %{SOURCE12} %{buildroot}%{_datadir}/snmp/mibs/NOTIFICATION-TEST-MIB.txt
 install -m 644 %{SOURCE13} %{buildroot}%{_datadir}/snmp/mibs/TRAP-TEST-MIB.txt
 
-# fix one bug
-perl -pi -e "s|%{buildroot}||g" %{buildroot}%{_libdir}/*.la
+# do not ship libtool archives
+rm -f %{buildroot}%{_libdir}/*.la
 
 # nuke rpath
 find %{buildroot}%{perl_vendorarch} -name "*.so" | xargs chrpath -d || :
@@ -372,6 +375,8 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_unitdir}/snmpd.socket
 %{_bindir}/ucd5820stat
 %{_sbindir}/snmpd
+%dir /var/lib/net-snmp
+%dir /var/agentx/master
 %{_mandir}/man5/snmpd.conf.5*
 %{_mandir}/man5/snmp_config.5*
 %{_mandir}/man5/snmp.conf.5*
@@ -503,8 +508,6 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %{_includedir}/net-snmp/ucd-snmp/*.h
 %dir %{_includedir}/net-snmp/agent/util_funcs
 %{_includedir}/net-snmp/agent/util_funcs/*.h
-%dir /var/lib/net-snmp
-%dir /var/agentx/master
 %{_mandir}/man3/*
 %exclude %{_mandir}/man3/NetSNMP*
 %exclude %{_mandir}/man3/SNMP.3*

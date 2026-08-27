@@ -1,1 +1,4 @@
 d	/run/net-snmp	0755	root	root
+d	/var/lib/net-snmp	0755	root	root
+d	/var/agentx	0755	root	root
+d	/var/agentx/master	0755	root	root

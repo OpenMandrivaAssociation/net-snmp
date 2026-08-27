@@ -67,7 +67,6 @@ BuildRequires:	perl(ExtUtils::Embed)
 BuildRequires:	chrpath
 BuildRequires:	lm_sensors-devel
 BuildRequires:	perl-devel
-BuildRequires:	tcp_wrappers-devel
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(libmariadb)
 BuildRequires:	pkgconfig(libnl-3.0)
@@ -160,7 +159,6 @@ Requires:	%{libsnmp} = %{EVRD}
 Requires:	lm_sensors-devel
 Requires:	pkgconfig(libnl-3.0)
 Requires:	pkgconfig(openssl)
-Requires:	tcp_wrappers-devel
 Requires:	perl-devel
 
 %description -n	%{devname}
@@ -285,7 +283,7 @@ MIBS="host agentx smux \
 	--with-logfile="/var/log/snmpd.log" \
 	--with-persistent-directory="/var/lib/net-snmp" \
 	--with-mib-modules="$MIBS" \
-	--with-libwrap \
+	--without-libwrap \
 	--with-openssl \
 	--with-perl-modules="INSTALLDIRS=vendor" \
 	--with-mnttab="/etc/mtab" \

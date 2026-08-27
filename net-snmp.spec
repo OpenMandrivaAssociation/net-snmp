@@ -35,7 +35,6 @@ License:	BSDish
 Group:		System/Servers
 Url:		https://www.net-snmp.org/
 Source0:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz
-Source1:	http://prdownloads.sourceforge.net/net-snmp/net-snmp-%{version}.tar.gz.asc
 Source2:	snmpd.conf
 Source3:	snmpd.logrotate
 Source4:	snmpd.sysconfig
@@ -148,12 +147,14 @@ project's network management tools.
 Summary:	The development environment for the NET-SNMP project
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
-Requires:	%{libagent} = %{version}-%{release}
-Requires:	%{libhelpers} = %{version}-%{release}
-Requires:	%{libmibs} = %{version}-%{release}
-Requires:	%{libtrapd} = %{version}-%{release}
-Requires:	%{libsnmp} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{libagent} = %{EVRD}
+Requires:	%{libhelpers} = %{EVRD}
+Requires:	%{libmibs} = %{EVRD}
+Requires:	%{libtrapd} = %{EVRD}
+Requires:	%{libsnmp} = %{EVRD}
+# net-snmp-config --libs emits -lsensors (ucd-snmp/lmsensorsMib)
+Requires:	lm_sensors-devel
 
 %description -n	%{devname}
 The %{devname} package contains the development libraries and header

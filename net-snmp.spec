@@ -8,12 +8,13 @@
 
 # LIBCURRENT in Makefile.top; 5.9.5 bumped 40 -> 45 (SNMPv3 multithread)
 %define major	45
-%define oldlibname %mklibname netsnmp 40
-%define oldlibagent %mklibname netsnmpagent 40
-%define oldlibhelpers %mklibname netsnmphelpers 40
-%define oldlibmibs %mklibname netsnmpmibs 40
-%define oldlibtrapd %mklibname netsnmptrapd 40
-%define oldlibsnmp %mklibname snmp 40
+# 35 is the last soname we shipped as a versioned library package name
+%define oldlibname %mklibname netsnmp 35
+%define oldlibagent %mklibname netsnmpagent 35
+%define oldlibhelpers %mklibname netsnmphelpers 35
+%define oldlibmibs %mklibname netsnmpmibs 35
+%define oldlibtrapd %mklibname netsnmptrapd 35
+%define oldlibsnmp %mklibname snmp 35
 %define libname %mklibname netsnmp
 %define libagent %mklibname netsnmpagent
 %define libhelpers %mklibname netsnmphelpers

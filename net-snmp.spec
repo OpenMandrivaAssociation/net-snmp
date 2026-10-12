@@ -330,7 +330,7 @@ install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/sysconfig/snmptrapd
 install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/snmptrapd.service
 install -m 644 dist/snmptrapd.socket %{buildroot}%{_unitdir}/snmptrapd.socket
 
-install -D -m 644 %{SOURCE10} %{buildroot}%{_prefix}/lib/tmpfiles.d/net-snmp.conf
+install -D -m 644 %{SOURCE10} %{buildroot}%{_tmpfilesdir}/net-snmp.conf
 
 install -m 0755 %{SOURCE11} %{buildroot}%{_bindir}/ucd5820stat
 
@@ -369,7 +369,7 @@ rm -fr %{buildroot}%{python_sitearch}/netsnmp/tests/__pycache__
 %config(noreplace) %{_sysconfdir}/snmp/snmpd.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/snmpd
 %config(noreplace) %{_sysconfdir}/logrotate.d/snmpd
-%{_prefix}/lib/tmpfiles.d/net-snmp.conf
+%{_tmpfilesdir}/net-snmp.conf
 %{_unitdir}/snmpd.service
 %{_unitdir}/snmpd.socket
 %{_bindir}/ucd5820stat
